@@ -12,6 +12,11 @@ import sys
 from typing import Any, Dict, List, Optional
 
 from regex_droid_builder.ast_engine import RegexASTParser, explain_regex
+from regex_droid_builder.automaton_engine import (
+    AutomatonBuilder,
+    AutomatonGasMeter,
+    to_mermaid_state_diagram,
+)
 from regex_droid_builder.catalog import PRESETS, get_preset, list_presets
 from regex_droid_builder.codegen import generate_code_snippets
 from regex_droid_builder.redos_detector import ReDoSAnalyzer
@@ -114,6 +119,43 @@ class MCPServer:
                 "inputSchema": {
                     "type": "object",
                     "properties": {}
+                }
+            },
+            {
+                "name": "regex_automaton_analysis",
+                "description": "Compile regex into Thompson NFA and Subset-Construction DFA, detect state explosion, and generate Mermaid state diagrams.",
+                "inputSchema": {
+                    "type": "object",
+                    "properties": {
+                        "pattern": {
+                            "type": "string",
+                            "description": "Regex pattern to compile."
+                        }
+                    },
+                    "required": ["pattern"]
+                }
+            },
+            {
+                "name": "regex_gas_meter",
+                "description": "Execute input string step-by-step through regex automaton gas meter to quantify execution complexity and detect ReDoS.",
+                "inputSchema": {
+                    "type": "object",
+                    "properties": {
+                        "pattern": {
+                            "type": "string",
+                            "description": "Regex pattern."
+                        },
+                        "input_text": {
+                            "type": "string",
+                            "description": "Input string to evaluate through gas meter."
+                        },
+                        "max_gas": {
+                            "type": "integer",
+                            "default": 50000,
+                            "description": "Maximum gas ceiling before abortion."
+                        }
+                    },
+                    "required": ["pattern", "input_text"]
                 }
             },
             {
@@ -245,6 +287,45 @@ class MCPServer:
                     {
                         "type": "text",
                         "text": json.dumps({"presets": list_presets()}, indent=2)
+                    }
+                ]
+            }
+
+        elif tool_name == "regex_automaton_analysis":
+            pattern = arguments["pattern"]
+            builder = AutomatonBuilder()
+            nfa = builder.build_nfa(pattern)
+            dfa = builder.convert_to_dfa(nfa)
+            mermaid_nfa = to_mermaid_state_diagram(nfa)
+            mermaid_dfa = to_mermaid_state_diagram(dfa)
+            return {
+                "content": [
+                    {
+                        "type": "text",
+                        "text": json.dumps({
+                            "pattern": pattern,
+                            "nfa_states_count": nfa.total_states,
+                            "dfa_states_count": dfa.total_states,
+                            "state_explosion_ratio": dfa.state_explosion_ratio,
+                            "is_state_explosion": dfa.is_state_explosion,
+                            "mermaid_nfa": mermaid_nfa,
+                            "mermaid_dfa": mermaid_dfa,
+                        }, indent=2)
+                    }
+                ]
+            }
+
+        elif tool_name == "regex_gas_meter":
+            pattern = arguments["pattern"]
+            input_text = arguments["input_text"]
+            max_gas = int(arguments.get("max_gas", 50000))
+            meter = AutomatonGasMeter(max_gas=max_gas)
+            res = meter.trace_execution(pattern, input_text)
+            return {
+                "content": [
+                    {
+                        "type": "text",
+                        "text": json.dumps(res.to_dict(), indent=2)
                     }
                 ]
             }

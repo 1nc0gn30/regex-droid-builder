@@ -82,3 +82,25 @@ def test_api_samples(live_server):
         assert "matching" in data
         assert "non_matching" in data
 
+
+def test_api_automaton(live_server):
+    payload = json.dumps({"pattern": r"a|b*"}).encode("utf-8")
+    req = urllib.request.Request(f"{live_server}/api/automaton", data=payload, headers={"Content-Type": "application/json"})
+    with urllib.request.urlopen(req) as resp:
+        assert resp.status == 200
+        data = json.loads(resp.read().decode("utf-8"))
+        assert data["nfa_states_count"] > 0
+        assert "mermaid_nfa" in data
+
+
+def test_api_gas_meter(live_server):
+    payload = json.dumps({"pattern": r"hello\d+", "input_text": "hello12345"}).encode("utf-8")
+    req = urllib.request.Request(f"{live_server}/api/gas-meter", data=payload, headers={"Content-Type": "application/json"})
+    with urllib.request.urlopen(req) as resp:
+        assert resp.status == 200
+        data = json.loads(resp.read().decode("utf-8"))
+        assert data["is_match"] is True
+        assert data["gas_consumed"] > 0
+        assert data["verdict"] == "SAFE"
+
+

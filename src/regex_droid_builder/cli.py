@@ -13,6 +13,11 @@ import sys
 from typing import Any, List, Optional
 
 from regex_droid_builder.ast_engine import explain_regex
+from regex_droid_builder.automaton_engine import (
+    AutomatonBuilder,
+    AutomatonGasMeter,
+    to_mermaid_state_diagram,
+)
 from regex_droid_builder.catalog import PRESETS, get_preset, list_presets
 from regex_droid_builder.codegen import generate_code_snippets
 from regex_droid_builder.mcp_server import run_mcp_server
@@ -72,6 +77,19 @@ def build_parser() -> argparse.ArgumentParser:
     # presets
     p_pres = sub.add_parser("presets", parents=[base], help="List curated regex presets")
     p_pres.add_argument("--json", action="store_true", help="Output presets as JSON")
+
+    # automaton / dfa
+    p_auto = sub.add_parser("automaton", aliases=["dfa", "nfa"], parents=[base], help="Compile regex to Thompson NFA & DFA state machine")
+    p_auto.add_argument("pattern", help="Regular expression pattern to compile")
+    p_auto.add_argument("--mermaid", action="store_true", help="Print Mermaid stateDiagram-v2")
+    p_auto.add_argument("--json", action="store_true", help="Output automaton report as JSON")
+
+    # gas-meter
+    p_gas = sub.add_parser("gas-meter", aliases=["gas"], parents=[base], help="Simulate input execution against regex automaton gas meter")
+    p_gas.add_argument("pattern", help="Regular expression pattern")
+    p_gas.add_argument("input_text", help="Input string to trace")
+    p_gas.add_argument("--max-gas", type=int, default=50000, help="Maximum gas ceiling (default: 50000)")
+    p_gas.add_argument("--json", action="store_true", help="Output execution trace as JSON")
 
     # serve
     p_serve = sub.add_parser("serve", parents=[base], help="Start Regex Droid Studio Web UI (Material 3 influenced)")
@@ -191,6 +209,55 @@ def main(argv: Optional[List[str]] = None) -> int:
                 print(f"  {c.CYAN}{p.id:<14}{c.RESET} : {c.BOLD}{p.name}{c.RESET} ({c.DIM}{p.category}{c.RESET})")
                 print(f"    Pattern: /{p.pattern}/{p.flags}")
                 print(f"    {c.DIM}{p.explanation}{c.RESET}\n")
+        return 0
+
+    elif args.command in ("automaton", "dfa", "nfa"):
+        builder = AutomatonBuilder()
+        nfa = builder.build_nfa(args.pattern)
+        dfa = builder.convert_to_dfa(nfa)
+        mermaid_nfa = to_mermaid_state_diagram(nfa)
+        mermaid_dfa = to_mermaid_state_diagram(dfa)
+
+        if args.json:
+            print(json.dumps({
+                "pattern": args.pattern,
+                "nfa_states_count": nfa.total_states,
+                "dfa_states_count": dfa.total_states,
+                "state_explosion_ratio": dfa.state_explosion_ratio,
+                "is_state_explosion": dfa.is_state_explosion,
+                "mermaid_nfa": mermaid_nfa,
+                "mermaid_dfa": mermaid_dfa,
+            }, indent=2))
+        elif args.mermaid:
+            print(f"\n{c.BOLD}--- Thompson NFA State Diagram ---{c.RESET}\n")
+            print(mermaid_nfa)
+            print(f"\n{c.BOLD}--- Powerset DFA State Diagram ---{c.RESET}\n")
+            print(mermaid_dfa)
+        else:
+            print(f"\n{c.BOLD}🤖 Automaton Finite State Machine Analysis{c.RESET}")
+            print(f"  Pattern             : /{args.pattern}/")
+            print(f"  Thompson NFA States : {c.CYAN}{nfa.total_states}{c.RESET}")
+            print(f"  Subset DFA States   : {c.CYAN}{dfa.total_states}{c.RESET}")
+            print(f"  State Ratio (D/N)   : {dfa.state_explosion_ratio}x")
+            expl_str = f"{c.RED}CRITICAL EXPLOSION{c.RESET}" if dfa.is_state_explosion else f"{c.GREEN}BOUNDED / SAFE{c.RESET}"
+            print(f"  Explosion Risk      : {expl_str}\n")
+        return 0
+
+    elif args.command in ("gas-meter", "gas"):
+        meter = AutomatonGasMeter(max_gas=args.max_gas)
+        res = meter.trace_execution(args.pattern, args.input_text)
+        if args.json:
+            print(json.dumps(res.to_dict(), indent=2))
+        else:
+            print(f"\n{c.BOLD}⚡ Automaton Execution Gas Meter{c.RESET}")
+            print(f"  Pattern       : /{res.pattern}/")
+            print(f"  Input String  : \"{res.input_text}\" (len {len(res.input_text)})")
+            match_str = f"{c.GREEN}MATCH{c.RESET}" if res.is_match else f"{c.RED}NO MATCH{c.RESET}"
+            print(f"  Result        : {match_str}")
+            print(f"  Gas Consumed  : {c.CYAN}{res.gas_consumed}{c.RESET} / {res.max_gas_limit}")
+            risk_color = c.RED if "CRITICAL" in res.state_explosion_risk else (c.YELLOW if "MODERATE" in res.state_explosion_risk else c.GREEN)
+            print(f"  Risk Profile  : {risk_color}{res.state_explosion_risk}{c.RESET}")
+            print(f"  Verdict       : {res.verdict}\n")
         return 0
 
     elif args.command == "serve":

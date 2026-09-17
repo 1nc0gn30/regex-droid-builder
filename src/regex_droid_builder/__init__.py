@@ -13,6 +13,14 @@ from regex_droid_builder.ast_engine import (
     explain_regex,
     generate_test_samples,
 )
+from regex_droid_builder.automaton_engine import (
+    AutomatonBuilder,
+    AutomatonDFA,
+    AutomatonGasMeter,
+    GasMeterExecutionResult,
+    ThompsonNFA,
+    to_mermaid_state_diagram,
+)
 from regex_droid_builder.catalog import RegexPreset, get_preset, list_presets
 from regex_droid_builder.codegen import generate_code_snippets
 from regex_droid_builder.mcp_server import MCPServer, run_mcp_server
@@ -42,6 +50,12 @@ __all__ = [
     "ReDoSAnalyzer",
     "ReDoSSeverity",
     "VulnerabilityReport",
+    "AutomatonBuilder",
+    "AutomatonDFA",
+    "AutomatonGasMeter",
+    "GasMeterExecutionResult",
+    "ThompsonNFA",
+    "to_mermaid_state_diagram",
     "MCPServer",
     "run_mcp_server",
 ]

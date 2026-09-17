@@ -15,6 +15,11 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from typing import Any, Dict, Optional
 
 from regex_droid_builder.ast_engine import RegexASTParser, explain_regex, generate_test_samples
+from regex_droid_builder.automaton_engine import (
+    AutomatonBuilder,
+    AutomatonGasMeter,
+    to_mermaid_state_diagram,
+)
 from regex_droid_builder.catalog import PRESETS, get_preset, list_presets
 from regex_droid_builder.codegen import generate_code_snippets
 from regex_droid_builder.redos_detector import ReDoSAnalyzer
@@ -293,6 +298,31 @@ class RegexHTTPHandler(BaseHTTPRequestHandler):
                 "flags": flags,
                 "snippets": snippets
             })
+            return
+
+        elif path == "/api/automaton":
+            builder = AutomatonBuilder()
+            nfa = builder.build_nfa(pattern)
+            dfa = builder.convert_to_dfa(nfa)
+            mermaid_nfa = to_mermaid_state_diagram(nfa)
+            mermaid_dfa = to_mermaid_state_diagram(dfa)
+            self._send_json({
+                "pattern": pattern,
+                "nfa_states_count": nfa.total_states,
+                "dfa_states_count": dfa.total_states,
+                "state_explosion_ratio": dfa.state_explosion_ratio,
+                "is_state_explosion": dfa.is_state_explosion,
+                "mermaid_nfa": mermaid_nfa,
+                "mermaid_dfa": mermaid_dfa,
+            })
+            return
+
+        elif path == "/api/gas-meter":
+            input_text = body.get("input_text", "")
+            max_gas = int(body.get("max_gas", 50000))
+            meter = AutomatonGasMeter(max_gas=max_gas)
+            res = meter.trace_execution(pattern, input_text)
+            self._send_json(res.to_dict())
             return
 
         self._send_json({"error": f"Endpoint not found: {path}"}, status=404)
