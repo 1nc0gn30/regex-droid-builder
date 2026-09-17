@@ -16,6 +16,7 @@ from regex_droid_builder.ast_engine import (
 from regex_droid_builder.catalog import RegexPreset, get_preset, list_presets
 from regex_droid_builder.codegen import generate_code_snippets
 from regex_droid_builder.mcp_server import MCPServer, run_mcp_server
+from regex_droid_builder.optimizer import RegexOptimizationResult, optimize_regex
 from regex_droid_builder.redos_detector import (
     ReDoSAnalyzer,
     ReDoSSeverity,
@@ -32,6 +33,8 @@ __all__ = [
     "RegexBuilder",
     "explain_regex",
     "generate_test_samples",
+    "optimize_regex",
+    "RegexOptimizationResult",
     "RegexPreset",
     "get_preset",
     "list_presets",
@@ -42,3 +45,4 @@ __all__ = [
     "MCPServer",
     "run_mcp_server",
 ]
+
