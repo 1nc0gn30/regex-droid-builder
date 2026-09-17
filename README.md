@@ -15,7 +15,7 @@
 - 🌳 **Regex AST & Natural Language Explainer**: Parses regular expressions into structured AST trees and generates step-by-step, plain-English explanations of literals, character classes, anchors, and quantifiers.
 - 🛡️ **Static & Empirical ReDoS Defense**: Audits patterns for catastrophic exponential/polynomial backtracking risks (nested quantifiers like `(a+)+`, overlapping alternations inside loops, unanchored greedy wildcards) with complexity estimation (`O(N)`, `O(2^N)`) and remediation fixes.
 - ⚡ **Multi-Language Code Generator**: Generates production-ready, type-safe snippet implementations in **Python (`re`)**, **JavaScript / TypeScript (`RegExp`)**, **Rust (`regex`)**, **Go (`regexp`)**, **Java**, and **C#**.
-- 🎨 **Google Material 3 Light Mode Web UI**: Real-time regex analyzer, interactive multi-line test matrix runner, flag toggles, curated presets catalog, and 1-click code copy.
+- 🎨 **Regex Droid Studio Web UI**: Real-time regex analyzer, interactive multi-line test matrix runner, flag toggles, curated presets catalog, and 1-click code copy (design influenced by Material 3 tokens).
 - 🚀 **Zero Third-Party Runtime Dependencies**: 100% Python Standard Library runtime (`re`, `http.server`, `urllib`, `time`, `json`, `dataclasses`, `argparse`).
 - 🤖 **FastMCP Server Protocol**: Full Model Context Protocol (MCP) JSON-RPC 2.0 stdio server for Claude Desktop, Cursor, Cline, and autonomous AI coding agents.
 
@@ -53,7 +53,7 @@ regex-droid codegen '^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$' --lang python
 # List curated regex presets
 regex-droid presets
 
-# Launch Google Material 3 Regex Studio Web UI
+# Launch Regex Droid Studio Web UI (Material 3 influenced)
 regex-droid serve --port 8097
 
 # Start FastMCP stdio server for LLM agents
@@ -123,7 +123,7 @@ flowchart TD
     subgraph Interfaces["🖥️ Interfaces"]
         CLI["💻 CLI Entrypoint\n(regex-droid / python -m)"]
         MCP["🤖 FastMCP Stdio Server\n(Claude / Cursor / Cline)"]
-        UI["🎨 Google Material 3 Studio\n(SVG Railroad Diagram & Live Matcher)"]
+        UI["🎨 Regex Droid Studio\n(SVG Railroad Diagram & Live Matcher)"]
     end
 
     Parser --> ReDoS

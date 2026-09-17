@@ -74,7 +74,7 @@ def build_parser() -> argparse.ArgumentParser:
     p_pres.add_argument("--json", action="store_true", help="Output presets as JSON")
 
     # serve
-    p_serve = sub.add_parser("serve", parents=[base], help="Start Google Material 3 Regex Studio Web UI")
+    p_serve = sub.add_parser("serve", parents=[base], help="Start Regex Droid Studio Web UI (Material 3 influenced)")
     p_serve.add_argument("--host", default="0.0.0.0", help="Host address (default: 0.0.0.0)")
     p_serve.add_argument("--port", type=int, default=8097, help="Port (default: 8097)")
 
@@ -195,7 +195,7 @@ def main(argv: Optional[List[str]] = None) -> int:
 
     elif args.command == "serve":
         server = run_ui_server(args.host, args.port)
-        print(f"{c.GREEN}🤖 Google Regex Studio UI running at:{c.RESET} http://{args.host}:{args.port}")
+        print(f"{c.GREEN}🤖 Regex Droid Studio UI running at:{c.RESET} http://{args.host}:{args.port}")
         try:
             server.serve_forever()
         except KeyboardInterrupt:

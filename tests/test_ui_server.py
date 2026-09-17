@@ -70,7 +70,7 @@ def test_ui_index_html(live_server):
         assert resp.status == 200
         content = resp.read().decode("utf-8")
         assert "<!DOCTYPE html>" in content
-        assert "Google Regex Studio" in content
+        assert "Regex Droid Studio" in content
 
 
 def test_api_samples(live_server):
