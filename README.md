@@ -90,6 +90,85 @@ Add `regex-droid-builder` to your Claude Desktop or Cursor configuration:
 
 ---
 
+## 📐 Mathematical Foundations & ReDoS Complexity
+
+### 1. Backtracking Complexity Classification
+
+| Complexity Class | Growth Rate | Vulnerability Rating | Canonical Danger Pattern | Attack Vector Example |
+| :--- | :--- | :--- | :--- | :--- |
+| **Linear** | $\mathcal{O}(N)$ | **SAFE** | `^[a-zA-Z0-9]+$` | Standard token validation |
+| **Polynomial** | $\mathcal{O}(N^2) \dots \mathcal{O}(N^k)$ | **MEDIUM / HIGH** | `.*=.*&` | Query parameter parser |
+| **Exponential** | $\mathcal{O}(2^N)$ | **CRITICAL** | `(a+)+$`, `(a\|aa)+$` | Nested star/plus quantifiers |
+
+### 2. Catastrophic Backtracking Mechanics
+When an NFA engine attempts to match an input of length $N$ against nested quantifiers $E = (R_1^+)^+$, the number of possible parsing paths grows combinatorially according to the partition integer function $P(N) \sim 2^{N-1}$:
+
+$$\text{Steps}(N) \ge 2^N$$
+
+A single non-matching character at the end of a 30-byte string (e.g. `aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa!`) can trigger over $1{,}073{,}741{,}824$ recursive state transitions, causing complete thread freeze / CPU exhaustion.
+
+---
+
+## 🏛️ Architecture
+
+```mermaid
+flowchart TD
+    subgraph CoreEngine["⚙️ Regex Droid Engine"]
+        Parser["🌳 Recursive Descent AST Parser\n(Sequence, Alternation, Classes, Groups)"]
+        ReDoS["🛡️ ReDoS Static & Fuzz Auditor\n(Evil-Regex Pattern Matcher)"]
+        Fuzzer["⚡ Synthetic Sample Generator\n(Valid Matches + Edge-Case Fuzzing)"]
+        CodeGen["💻 Polyglot Code Synthesizer\n(Python, JS, Rust, Go, Java, C#)"]
+    end
+
+    subgraph Interfaces["🖥️ Interfaces"]
+        CLI["💻 CLI Entrypoint\n(regex-droid / python -m)"]
+        MCP["🤖 FastMCP Stdio Server\n(Claude / Cursor / Cline)"]
+        UI["🎨 Google Material 3 Studio\n(SVG Railroad Diagram & Live Matcher)"]
+    end
+
+    Parser --> ReDoS
+    Parser --> Fuzzer
+    Parser --> CodeGen
+    ReDoS --> Interfaces
+    Fuzzer --> Interfaces
+    CodeGen --> Interfaces
+```
+
+---
+
+## 🐍 Python SDK API Reference
+
+```python
+from regex_droid_builder.ast_engine import RegexASTParser, explain_regex, generate_test_samples
+from regex_droid_builder.redos_detector import ReDoSAnalyzer
+from regex_droid_builder.codegen import generate_code_snippets
+
+# 1. Parse into AST & explain in natural language
+pattern = r"^[\w.+-]+@[\w-]+\.[a-zA-Z]{2,}$"
+parser = RegexASTParser(pattern)
+ast = parser.parse()
+breakdown = explain_regex(pattern)
+for step in breakdown[:3]:
+    print(f"{step['type']}: {step['explanation']}")
+
+# 2. Audit ReDoS vulnerability
+analyzer = ReDoSAnalyzer()
+report = analyzer.analyze("(a+)+$")
+print(f"Vulnerable: {report.is_vulnerable} (Severity: {report.severity.value})")
+print(f"Complexity: {report.complexity_order}")
+
+# 3. Generate synthetic matching & non-matching test strings
+samples = generate_test_samples(pattern, count=3)
+print(f"Valid matches: {samples['matching']}")
+print(f"Invalid non-matches: {samples['non_matching']}")
+
+# 4. Generate multi-language code snippets
+snippets = generate_code_snippets(pattern)
+print(snippets["python"])
+```
+
+---
+
 ## 🧪 Running Tests
 
 ```bash
@@ -101,3 +180,4 @@ pytest -v
 ## 📜 License
 
 MIT License © 2026 1nc0gn30
+

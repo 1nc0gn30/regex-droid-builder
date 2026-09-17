@@ -11,6 +11,7 @@ from regex_droid_builder.ast_engine import (
     RegexASTParser,
     RegexBuilder,
     explain_regex,
+    generate_test_samples,
 )
 from regex_droid_builder.catalog import RegexPreset, get_preset, list_presets
 from regex_droid_builder.codegen import generate_code_snippets
@@ -30,6 +31,7 @@ __all__ = [
     "RegexASTParser",
     "RegexBuilder",
     "explain_regex",
+    "generate_test_samples",
     "RegexPreset",
     "get_preset",
     "list_presets",

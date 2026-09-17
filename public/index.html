@@ -4,6 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Google Regex Studio | Visual AST Builder & ReDoS Vulnerability Detector</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;600;700&family=Roboto+Mono:wght@400;500;600&family=Roboto:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
     :root {
       --g-blue: #1a73e8;
@@ -15,34 +18,42 @@
       --g-yellow-light: #fef7e0;
       --g-red: #d93025;
       --g-red-light: #fce8e6;
+      --g-purple: #9334e6;
+      --g-purple-light: #f3e8fd;
       --surface: #ffffff;
       --surface-variant: #f8f9fa;
+      --surface-card: #ffffff;
       --border: #dadce0;
       --border-subtle: #e8eaed;
       --text: #202124;
       --text-secondary: #5f6368;
       --code-bg: #f1f3f4;
-      --shadow-sm: 0 1px 2px rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15);
+      --shadow-sm: 0 1px 2px rgba(60,64,67,0.15), 0 1px 3px 1px rgba(60,64,67,0.1);
       --shadow-md: 0 4px 8px 3px rgba(60,64,67,0.15);
       --radius-sm: 8px;
       --radius-md: 12px;
       --radius-full: 9999px;
+      --font-sans: 'Google Sans', 'Segoe UI', Roboto, sans-serif;
+      --font-mono: 'Roboto Mono', monospace;
     }
     [data-theme="dark"] {
       --surface: #1e1f20;
       --surface-variant: #131314;
+      --surface-card: #28292a;
       --border: #3c4043;
       --border-subtle: #2d3134;
       --text: #e3e3e3;
       --text-secondary: #9aa0a6;
+      --code-bg: #18191a;
       --g-blue-light: #1c3b5e;
       --g-green-light: #133820;
       --g-red-light: #3c1e1e;
-      --code-bg: #282a2c;
+      --g-yellow-light: #3c3214;
+      --g-purple-light: #2c1a3f;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "Google Sans", "Segoe UI", Roboto, sans-serif;
+      font-family: var(--font-sans);
       background: var(--surface-variant);
       color: var(--text);
       display: flex;
@@ -53,11 +64,10 @@
     header {
       background: var(--surface);
       border-bottom: 1px solid var(--border);
-      padding: 0.75rem 1.5rem;
+      padding: 0.65rem 1.5rem;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      box-shadow: 0 1px 2px rgba(0,0,0,0.05);
       z-index: 10;
     }
     .brand {
@@ -68,11 +78,11 @@
       font-weight: 600;
     }
     .brand-icon {
-      background: var(--g-blue);
-      color: white;
+      background: var(--g-blue-light);
+      color: var(--g-blue);
       width: 32px;
       height: 32px;
-      border-radius: 8px;
+      border-radius: var(--radius-sm);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -89,16 +99,24 @@
     .header-actions {
       display: flex;
       align-items: center;
-      gap: 0.75rem;
+      gap: 0.5rem;
     }
     .btn-icon {
-      background: none;
+      background: var(--surface);
       border: 1px solid var(--border);
       color: var(--text);
-      padding: 0.4rem 0.75rem;
-      border-radius: var(--radius-sm);
+      padding: 0.4rem 0.8rem;
+      border-radius: var(--radius-full);
       cursor: pointer;
       font-size: 0.85rem;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: all 0.15s;
+    }
+    .btn-icon:hover {
+      background: var(--surface-variant);
     }
     .container {
       display: grid;
@@ -116,12 +134,12 @@
       gap: 1.25rem;
     }
     .section-title {
-      font-size: 0.85rem;
-      font-weight: 600;
+      font-size: 0.8rem;
+      font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
+      letter-spacing: 0.05em;
       color: var(--text-secondary);
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.4rem;
     }
     .preset-list {
       display: flex;
@@ -129,7 +147,7 @@
       gap: 0.4rem;
     }
     .preset-item {
-      padding: 0.6rem 0.75rem;
+      padding: 0.65rem 0.85rem;
       border-radius: var(--radius-sm);
       border: 1px solid var(--border-subtle);
       background: var(--surface-variant);
@@ -154,71 +172,84 @@
       color: var(--text-secondary);
     }
     main {
-      padding: 1.5rem;
+      padding: 1.25rem 1.5rem;
       overflow-y: auto;
       display: flex;
       flex-direction: column;
-      gap: 1.25rem;
+      gap: 1rem;
     }
     .card {
-      background: var(--surface);
+      background: var(--surface-card);
       border: 1px solid var(--border);
       border-radius: var(--radius-md);
       padding: 1.25rem;
       box-shadow: var(--shadow-sm);
     }
-    .pattern-bar {
+    .regex-editor-bar {
       display: flex;
       align-items: center;
-      gap: 0.5rem;
-      background: var(--code-bg);
       border: 1px solid var(--border);
       border-radius: var(--radius-sm);
       padding: 0.4rem 0.75rem;
-      font-family: monospace;
-      font-size: 1rem;
+      background: var(--surface);
+      gap: 0.5rem;
     }
-    .pattern-input {
+    .regex-editor-bar:focus-within {
+      border-color: var(--g-blue);
+      box-shadow: 0 0 0 2px var(--g-blue-light);
+    }
+    .regex-delim {
+      color: var(--text-secondary);
+      font-family: var(--font-mono);
+      font-size: 1.1rem;
+      font-weight: 600;
+    }
+    #pattern-input {
       flex: 1;
-      background: transparent;
       border: none;
-      outline: none;
+      background: transparent;
+      font-family: var(--font-mono);
+      font-size: 1rem;
       color: var(--text);
-      font-family: inherit;
-      font-size: inherit;
+      outline: none;
     }
-    .flags-box {
+    .flags-group {
       display: flex;
-      gap: 0.35rem;
+      gap: 0.25rem;
     }
-    .flag-chip {
-      padding: 0.2rem 0.5rem;
-      border-radius: 4px;
+    .flag-btn {
+      background: var(--code-bg);
       border: 1px solid var(--border);
-      font-size: 0.75rem;
+      border-radius: var(--radius-sm);
+      padding: 0.2rem 0.5rem;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      font-weight: 600;
       cursor: pointer;
-      user-select: none;
+      color: var(--text-secondary);
     }
-    .flag-chip.active {
+    .flag-btn.active {
       background: var(--g-blue);
       color: white;
       border-color: var(--g-blue);
     }
     .redos-banner {
       display: flex;
-      align-items: flex-start;
-      gap: 0.75rem;
-      padding: 0.75rem 1rem;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.85rem 1.25rem;
       border-radius: var(--radius-sm);
       margin-top: 0.75rem;
     }
     .redos-banner.SAFE { background: var(--g-green-light); color: var(--g-green); border: 1px solid var(--g-green); }
-    .redos-banner.CRITICAL_REDOS, .redos-banner.HIGH { background: var(--g-red-light); color: var(--g-red); border: 1px solid var(--g-red); }
-    .redos-banner.MEDIUM, .redos-banner.LOW { background: var(--g-yellow-light); color: #b06000; border: 1px solid var(--g-yellow); }
+    .redos-banner.LOW { background: var(--g-blue-light); color: var(--g-blue); border: 1px solid var(--g-blue); }
+    .redos-banner.MEDIUM { background: var(--g-yellow-light); color: #b06000; border: 1px solid var(--g-yellow); }
+    .redos-banner.HIGH, .redos-banner.CRITICAL { background: var(--g-red-light); color: var(--g-red); border: 1px solid var(--g-red); }
     .tabs {
       display: flex;
       border-bottom: 1px solid var(--border);
       margin-bottom: 1rem;
+      gap: 0.5rem;
     }
     .tab {
       padding: 0.5rem 1rem;
@@ -227,33 +258,39 @@
       font-weight: 500;
       color: var(--text-secondary);
       border-bottom: 2px solid transparent;
+      transition: all 0.15s;
+    }
+    .tab:hover {
+      color: var(--text);
     }
     .tab.active {
       color: var(--g-blue);
       border-bottom-color: var(--g-blue);
       font-weight: 600;
     }
-    .explanation-steps {
+    .step-list {
       display: flex;
       flex-direction: column;
       gap: 0.5rem;
     }
     .step-item {
-      display: flex;
-      align-items: flex-start;
-      gap: 0.75rem;
-      padding: 0.5rem 0.75rem;
-      border-radius: var(--radius-sm);
       background: var(--surface-variant);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 0.65rem 0.85rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
       font-size: 0.85rem;
     }
     .step-badge {
-      background: var(--g-blue-light);
-      color: var(--g-blue);
+      font-family: var(--font-mono);
       font-size: 0.75rem;
       font-weight: 600;
-      padding: 0.15rem 0.45rem;
+      padding: 2px 6px;
       border-radius: 4px;
+      background: var(--g-blue-light);
+      color: var(--g-blue);
       white-space: nowrap;
     }
     .test-area {
@@ -268,34 +305,68 @@
       border-radius: var(--radius-sm);
       background: var(--surface);
       color: var(--text);
-      font-family: monospace;
+      font-family: var(--font-mono);
       font-size: 0.9rem;
       resize: vertical;
+      outline: none;
+    }
+    textarea:focus {
+      border-color: var(--g-blue);
     }
     .test-results-list {
       display: flex;
       flex-direction: column;
-      gap: 0.35rem;
+      gap: 0.4rem;
     }
     .test-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0.4rem 0.75rem;
-      border-radius: 6px;
-      font-family: monospace;
+      padding: 0.65rem 0.85rem;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-subtle);
+      font-family: var(--font-mono);
       font-size: 0.85rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
     }
-    .test-row.match { background: var(--g-green-light); color: var(--g-green); }
-    .test-row.fail { background: var(--g-red-light); color: var(--g-red); }
+    .test-row.match { background: var(--g-green-light); border-color: var(--g-green); color: var(--text); }
+    .test-row.fail { background: var(--g-red-light); border-color: var(--g-red); color: var(--text); }
+    .group-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      font-size: 0.75rem;
+      padding: 2px 6px;
+      border-radius: 4px;
+      background: rgba(0,0,0,0.06);
+      margin-right: 4px;
+      font-family: var(--font-mono);
+    }
     pre {
       background: var(--code-bg);
       padding: 1rem;
       border-radius: var(--radius-sm);
       overflow-x: auto;
-      font-family: monospace;
+      font-family: var(--font-mono);
       font-size: 0.85rem;
-      line-height: 1.4;
+      line-height: 1.45;
+      border: 1px solid var(--border-subtle);
+      white-space: pre-wrap;
+    }
+    /* Railroad Track Visualizer */
+    .railroad-container {
+      background: #0f1115;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 1rem;
+      overflow-x: auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 120px;
+    }
+    svg.railroad-svg {
+      display: block;
+      margin: 0 auto;
     }
   </style>
 </head>
@@ -304,55 +375,70 @@
     <div class="brand">
       <div class="brand-icon">🤖</div>
       <span>Google Regex Studio</span>
-      <span class="badge">AST & ReDoS Defense</span>
+      <span class="badge">Visual AST & ReDoS Guardian</span>
     </div>
     <div class="header-actions">
       <button class="btn-icon" onclick="toggleTheme()">🌓 Theme</button>
-      <button class="btn-icon" onclick="copyCode()">📋 Copy Snippet</button>
+      <button class="btn-icon" onclick="copyRegex()">📋 Copy Pattern</button>
+      <button class="btn-icon" onclick="copyCode()">💻 Copy Code</button>
     </div>
   </header>
 
   <div class="container">
     <aside>
-      <div class="section-title">Curated Presets</div>
+      <div class="section-title">Regex Preset Catalog</div>
       <div class="preset-list" id="preset-list"></div>
     </aside>
 
     <main>
-      <!-- Pattern Input Card -->
+      <!-- Regex Input Bar -->
       <div class="card">
-        <div class="section-title">Regular Expression</div>
-        <div class="pattern-bar">
-          <span style="color:var(--text-secondary);">/</span>
-          <input type="text" id="pattern-input" class="pattern-input" value="^[\w.+-]+@[\w-]+\.[a-zA-Z]{2,}$" oninput="handlePatternChange()">
-          <span style="color:var(--text-secondary);">/</span>
-          <div class="flags-box">
-            <span class="flag-chip" id="flag-i" onclick="toggleFlag('i')">i</span>
-            <span class="flag-chip" id="flag-m" onclick="toggleFlag('m')">m</span>
-            <span class="flag-chip" id="flag-s" onclick="toggleFlag('s')">s</span>
+        <div class="section-title">Regular Expression Pattern</div>
+        <div class="regex-editor-bar">
+          <span class="regex-delim">/</span>
+          <input type="text" id="pattern-input" value="^[\w.+-]+@[\w-]+\.[a-zA-Z]{2,}$" oninput="handlePatternChange()">
+          <span class="regex-delim">/</span>
+          <div class="flags-group">
+            <button class="flag-btn" id="flag-i" onclick="toggleFlag('i')">i</button>
+            <button class="flag-btn" id="flag-m" onclick="toggleFlag('m')">m</button>
+            <button class="flag-btn" id="flag-s" onclick="toggleFlag('s')">s</button>
           </div>
         </div>
-
         <div id="redos-container"></div>
       </div>
 
       <!-- Analysis Tabs -->
       <div class="card">
         <div class="tabs">
-          <div class="tab active" onclick="switchTab('explain')">AST Breakdown</div>
-          <div class="tab" onclick="switchTab('test')">Test Matrix</div>
-          <div class="tab" onclick="switchTab('codegen')">Code Generator</div>
+          <div class="tab active" onclick="switchTab('railroad')">Railroad Track Diagram</div>
+          <div class="tab" onclick="switchTab('explain')">Visual AST Breakdown</div>
+          <div class="tab" onclick="switchTab('test')">Interactive Match Tester</div>
+          <div class="tab" onclick="switchTab('codegen')">Multi-Language Code</div>
         </div>
 
-        <!-- Tab 1: AST Explanation -->
-        <div id="tab-explain">
-          <div class="explanation-steps" id="explanation-steps"></div>
+        <!-- Tab 1: Railroad Diagram -->
+        <div id="tab-railroad">
+          <div class="railroad-container" id="railroad-viewport">
+            <svg id="railroad-svg" class="railroad-svg" height="80"></svg>
+          </div>
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-top:0.5rem; font-size:0.75rem; color:var(--text-secondary);">
+            <span>Interactive AST railroad flow chart (Blue = Character Class, Green = Literal, Purple = Group)</span>
+            <span id="ast-node-count">0 Nodes</span>
+          </div>
         </div>
 
-        <!-- Tab 2: Test Matrix -->
+        <!-- Tab 2: AST Explanation -->
+        <div id="tab-explain" style="display:none;">
+          <div class="step-list" id="explanation-steps"></div>
+        </div>
+
+        <!-- Tab 3: Test Matrix -->
         <div id="tab-test" style="display:none;">
           <div class="test-area">
-            <label style="font-size:0.85rem; color:var(--text-secondary);">Test Strings (one per line):</label>
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <label style="font-size:0.85rem; font-weight:600;">Test Strings (one per line):</label>
+              <button class="btn-icon" style="font-size:0.8rem; background:var(--g-blue-light); color:var(--g-blue);" onclick="fuzzGenerateSamples()">⚡ Auto-Generate Samples</button>
+            </div>
             <textarea id="test-strings-input" rows="4" oninput="runTests()">alex.dev+test@example.com
 invalid.email@com
 user@domain.co.uk
@@ -361,13 +447,14 @@ plainstring</textarea>
           </div>
         </div>
 
-        <!-- Tab 3: Code Generator -->
+        <!-- Tab 4: Code Generator -->
         <div id="tab-codegen" style="display:none;">
           <div style="display:flex; gap:0.5rem; margin-bottom:0.75rem;">
             <button class="btn-icon" onclick="showLang('python')">Python</button>
             <button class="btn-icon" onclick="showLang('javascript')">JavaScript</button>
             <button class="btn-icon" onclick="showLang('rust')">Rust</button>
             <button class="btn-icon" onclick="showLang('go')">Go</button>
+            <button class="btn-icon" onclick="showLang('php')">PHP</button>
           </div>
           <pre id="code-snippet-box"></pre>
         </div>
@@ -399,6 +486,7 @@ plainstring</textarea>
     function switchTab(tabId) {
       document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
       event.target.classList.add('active');
+      document.getElementById('tab-railroad').style.display = tabId === 'railroad' ? 'block' : 'none';
       document.getElementById('tab-explain').style.display = tabId === 'explain' ? 'block' : 'none';
       document.getElementById('tab-test').style.display = tabId === 'test' ? 'block' : 'none';
       document.getElementById('tab-codegen').style.display = tabId === 'codegen' ? 'block' : 'none';
@@ -446,15 +534,16 @@ plainstring</textarea>
         banner.innerHTML = `
           <div class="redos-banner ${redos.severity}">
             <div>
-              <strong>${redos.severity === 'SAFE' ? '🛡️ Safe Regex' : '⚠️ ReDoS Warning (' + redos.severity + ')'}</strong> (${redos.complexity_order})
+              <strong>${redos.severity === 'SAFE' ? '🛡️ Safe Regular Expression' : '⚠️ ReDoS Warning (' + redos.severity + ')'}</strong> (${redos.complexity_order})
               <p style="font-size:0.85rem; margin-top:2px;">${redos.description}</p>
               ${redos.remediation && redos.is_vulnerable ? `<p style="font-size:0.8rem; margin-top:4px;"><em>Fix: ${redos.remediation}</em></p>` : ''}
             </div>
+            <div style="font-size:0.85rem; font-weight:700;">Score: ${redos.vulnerability_score}/100</div>
           </div>
         `;
       } catch (e) {}
 
-      // 2. AST Explanation
+      // 2. AST Explanation & Railroad Diagram
       try {
         const expResp = await fetch('/api/explain', {
           method: 'POST',
@@ -466,12 +555,15 @@ plainstring</textarea>
         stepContainer.innerHTML = exp.explanation_steps.map((s, idx) => `
           <div class="step-item">
             <span class="step-badge">#${idx + 1} ${s.type}</span>
-            <div>
-              <code>${s.value || ''}</code>
-              <span>${s.explanation}</span>
+            <div style="flex:1;">
+              <code style="color:var(--g-blue);">${escapeHtml(s.value || '')}</code>
+              <div style="font-size:0.8rem; color:var(--text-secondary); margin-top:2px;">${s.explanation}</div>
             </div>
           </div>
         `).join('');
+
+        document.getElementById('ast-node-count').innerText = `${exp.explanation_steps.length} AST Nodes`;
+        renderRailroad(exp.explanation_steps);
       } catch (e) {}
 
       // 3. Code Generation
@@ -489,6 +581,58 @@ plainstring</textarea>
       runTests();
     }
 
+    function renderRailroad(steps) {
+      const svg = document.getElementById('railroad-svg');
+      if (!steps || steps.length === 0) {
+        svg.innerHTML = '';
+        return;
+      }
+
+      let curX = 30;
+      const y = 40;
+      let elements = [];
+
+      // Start circle
+      elements.push(`<circle cx="15" cy="${y}" r="6" fill="#1a73e8" />`);
+      elements.push(`<line x1="21" y1="${y}" x2="${curX}" y2="${y}" stroke="#444" stroke-width="2" />`);
+
+      steps.forEach((s) => {
+        const text = s.value ? s.value.substring(0, 16) : s.type;
+        const width = Math.max(50, text.length * 9 + 16);
+
+        let fill = '#1e293b';
+        let stroke = '#3b82f6';
+        let textColor = '#60a5fa';
+
+        if (s.type === 'CHARACTER_CLASS') {
+          stroke = '#38bdf8';
+          textColor = '#7dd3fc';
+        } else if (s.type === 'LITERAL') {
+          stroke = '#22c55e';
+          textColor = '#86efac';
+        } else if (s.type === 'GROUP') {
+          stroke = '#a855f7';
+          textColor = '#d8b4fe';
+        }
+
+        // Box
+        elements.push(`<rect x="${curX}" y="${y - 14}" width="${width}" height="28" rx="6" fill="${fill}" stroke="${stroke}" stroke-width="1.5" />`);
+        elements.push(`<text x="${curX + width / 2}" y="${y + 4}" fill="${textColor}" font-size="11" font-family="monospace" text-anchor="middle">${escapeHtml(text)}</text>`);
+
+        // Connect line to next
+        const nextX = curX + width + 20;
+        elements.push(`<line x1="${curX + width}" y1="${y}" x2="${nextX}" y2="${y}" stroke="#555" stroke-width="2" />`);
+        curX = nextX;
+      });
+
+      // End circle
+      elements.push(`<circle cx="${curX + 6}" cy="${y}" r="6" fill="#1e8e3e" />`);
+      elements.push(`<circle cx="${curX + 6}" cy="${y}" r="3" fill="#ffffff" />`);
+
+      svg.setAttribute('width', Math.max(600, curX + 30));
+      svg.innerHTML = elements.join('');
+    }
+
     async function runTests() {
       const pattern = document.getElementById('pattern-input').value;
       const lines = document.getElementById('test-strings-input').value.split('\n').filter(Boolean);
@@ -503,11 +647,33 @@ plainstring</textarea>
         const list = document.getElementById('test-results-list');
         list.innerHTML = data.results.map(r => `
           <div class="test-row ${r.is_match ? 'match' : 'fail'}">
-            <span>${r.is_match ? '✓' : '✗'} ${r.input}</span>
-            <span>${r.is_match ? 'Matched' : 'No Match'}</span>
+            <div style="display:flex; justify-content:space-between;">
+              <strong>${r.is_match ? '✓ MATCH' : '✗ NO MATCH'}: ${escapeHtml(r.input)}</strong>
+              <span>${r.span ? `Span: [${r.span[0]}, ${r.span[1]}]` : ''}</span>
+            </div>
+            ${r.groups && r.groups.length ? `
+              <div style="margin-top:2px;">
+                ${r.groups.map((g, idx) => `<span class="group-chip">Grp ${idx+1}: <code>${escapeHtml(g || 'null')}</code></span>`).join('')}
+              </div>
+            ` : ''}
           </div>
         `).join('');
       } catch (e) {}
+    }
+
+    async function fuzzGenerateSamples() {
+      const pattern = document.getElementById('pattern-input').value;
+      const resp = await fetch('/api/samples', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({pattern, flags: currentFlags, count: 4})
+      });
+      const data = await resp.json();
+      const combined = [...data.matching, ...data.non_matching];
+      if (combined.length) {
+        document.getElementById('test-strings-input').value = combined.join('\n');
+        runTests();
+      }
     }
 
     function showLang(lang) {
@@ -517,10 +683,21 @@ plainstring</textarea>
       }
     }
 
+    function copyRegex() {
+      const p = document.getElementById('pattern-input').value;
+      navigator.clipboard.writeText(p);
+      alert('Regex pattern copied to clipboard!');
+    }
+
     function copyCode() {
       const code = currentSnippets[activeLang] || '';
       navigator.clipboard.writeText(code);
-      alert('Code snippet copied to clipboard!');
+      alert(`${activeLang.toUpperCase()} snippet copied to clipboard!`);
+    }
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
     }
 
     // Init

@@ -14,7 +14,7 @@ import urllib.parse
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from typing import Any, Dict, Optional
 
-from regex_droid_builder.ast_engine import RegexASTParser, explain_regex
+from regex_droid_builder.ast_engine import RegexASTParser, explain_regex, generate_test_samples
 from regex_droid_builder.catalog import PRESETS, get_preset, list_presets
 from regex_droid_builder.codegen import generate_code_snippets
 from regex_droid_builder.redos_detector import ReDoSAnalyzer
@@ -272,6 +272,17 @@ class RegexHTTPHandler(BaseHTTPRequestHandler):
                 "total_tested": len(test_strings),
                 "matches_count": sum(1 for r in results if r["is_match"]),
                 "results": results
+            })
+            return
+
+        elif path == "/api/samples":
+            count = int(body.get("count", 4))
+            samples = generate_test_samples(pattern, flags, count=count)
+            self._send_json({
+                "pattern": pattern,
+                "flags": flags,
+                "matching": samples.get("matching", []),
+                "non_matching": samples.get("non_matching", [])
             })
             return
 

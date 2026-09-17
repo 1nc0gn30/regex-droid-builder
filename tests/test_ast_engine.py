@@ -52,3 +52,15 @@ def test_fluent_builder():
     assert pattern.startswith("^")
     assert pattern.endswith("$")
     assert r"\w+" in pattern
+
+
+def test_generate_test_samples():
+    from regex_droid_builder.ast_engine import generate_test_samples
+    samples = generate_test_samples(r"^[\w.+-]+@[\w-]+\.[a-zA-Z]{2,}$", count=3)
+    assert len(samples["matching"]) > 0
+    assert len(samples["non_matching"]) > 0
+    # Test on literal/digit regex
+    digit_samples = generate_test_samples(r"^\d{3}-\d{4}$", count=2)
+    assert len(digit_samples["matching"]) > 0
+    assert len(digit_samples["non_matching"]) > 0
+

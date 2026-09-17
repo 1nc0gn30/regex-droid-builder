@@ -71,3 +71,14 @@ def test_ui_index_html(live_server):
         content = resp.read().decode("utf-8")
         assert "<!DOCTYPE html>" in content
         assert "Google Regex Studio" in content
+
+
+def test_api_samples(live_server):
+    payload = json.dumps({"pattern": r"^[\w.-]+@example\.com$", "count": 2}).encode("utf-8")
+    req = urllib.request.Request(f"{live_server}/api/samples", data=payload, headers={"Content-Type": "application/json"})
+    with urllib.request.urlopen(req) as resp:
+        assert resp.status == 200
+        data = json.loads(resp.read().decode("utf-8"))
+        assert "matching" in data
+        assert "non_matching" in data
+

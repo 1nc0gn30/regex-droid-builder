@@ -381,3 +381,123 @@ class RegexBuilder:
 
     def build(self) -> str:
         return "".join(self.parts)
+
+
+def generate_test_samples(pattern: str, flags: str = "", count: int = 4) -> Dict[str, List[str]]:
+    """
+    Generate valid matching and intentionally invalid non-matching test strings
+    for a regular expression using AST synthesis and mutation fuzzer.
+    """
+    re_flags = 0
+    if "i" in flags:
+        re_flags |= re.IGNORECASE
+    if "m" in flags:
+        re_flags |= re.MULTILINE
+    if "s" in flags:
+        re_flags |= re.DOTALL
+
+    try:
+        compiled = re.compile(pattern, re_flags)
+    except re.error:
+        return {"matching": [], "non_matching": []}
+
+    # Known catalog heuristics for high-fidelity samples
+    p_lower = pattern.lower()
+    matches: List[str] = []
+
+    if "@" in pattern and ("email" in p_lower or "\\w" in pattern or "[a-z" in p_lower):
+        email_samples = ["alex.developer@example.com", "security-team@domain.org", "contact+test@sub.corp.io", "admin123@web-services.net"]
+        matches.extend([s for s in email_samples if compiled.search(s)])
+
+    if "http" in pattern:
+        url_samples = ["https://github.com/1nc0gn30", "http://localhost:8080/api", "https://sub.domain.org/path?q=1#hash"]
+        matches.extend([s for s in url_samples if compiled.search(s)])
+
+    if "uuid" in p_lower or "[0-9a-f]{8}" in p_lower:
+        uuid_samples = ["c9a646d3-9c61-4cd9-bc12-ae870da800f4", "123e4567-e89b-12d3-a456-426614174000"]
+        matches.extend([s for s in uuid_samples if compiled.search(s)])
+
+    # Generic AST walker synthesis
+    try:
+        parser = RegexASTParser(pattern, flags)
+        ast = parser.parse()
+
+        def _synthesize_node(node: ASTNode, depth: int = 0) -> str:
+            if depth > 10:
+                return ""
+            nt = node.type
+            val = node.value or ""
+            q = node.quantifier or ""
+
+            rep = 1
+            if q == "?":
+                rep = 1
+            elif q in ("*", "+"):
+                rep = 1
+            elif "{" in q:
+                m = re.search(r"\{(\d+)", q)
+                if m:
+                    rep = int(m.group(1))
+
+            if nt == NodeType.ROOT or nt == NodeType.SEQUENCE:
+                return "".join(_synthesize_node(c, depth + 1) for c in node.children)
+            elif nt == NodeType.ALTERNATION:
+                if node.children:
+                    return _synthesize_node(node.children[0], depth + 1)
+                return ""
+            elif nt == NodeType.GROUP:
+                return "".join(_synthesize_node(c, depth + 1) for c in node.children) * rep
+            elif nt == NodeType.ANCHOR:
+                return ""
+            elif nt == NodeType.LITERAL:
+                clean = val.replace("\\.", ".").replace("\\-", "-").replace("\\/", "/").replace("\\*", "*").replace("\\+", "+").replace("\\?", "?")
+                return clean * rep
+            elif nt == NodeType.CHARACTER_CLASS:
+                char = "a"
+                if "\\d" in val or "0-9" in val or "digit" in val.lower():
+                    char = "7"
+                elif "A-Z" in val:
+                    char = "K"
+                elif "a-z" in val:
+                    char = "m"
+                elif "\\w" in val:
+                    char = "x"
+                elif "\\s" in val:
+                    char = " "
+                return char * rep
+            return ""
+
+        for _ in range(count * 2):
+            cand = _synthesize_node(ast)
+            if cand and compiled.search(cand) and cand not in matches:
+                matches.append(cand)
+            if len(matches) >= count:
+                break
+    except Exception:
+        pass
+
+    # Generate non-matching strings via boundary mutations
+    non_matches: List[str] = []
+    candidates = [
+        "!!!_INVALID_BOUNDARY_!!!",
+        "123-NOT-MATCHING-STRING-XYZ",
+        "   ",
+        "@@@$$$###",
+        "null",
+        "-1"
+    ]
+    for s in matches:
+        candidates.append(s + "@@@INVALID@@@")
+        candidates.append(s[: max(1, len(s) // 2)])
+
+    for c in candidates:
+        if not compiled.search(c) and c not in non_matches:
+            non_matches.append(c)
+        if len(non_matches) >= count:
+            break
+
+    return {
+        "matching": matches[:count],
+        "non_matching": non_matches[:count]
+    }
+
