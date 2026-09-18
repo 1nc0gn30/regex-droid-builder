@@ -325,6 +325,38 @@ class RegexHTTPHandler(BaseHTTPRequestHandler):
             self._send_json(res.to_dict())
             return
 
+        elif path == "/api/compare":
+            from regex_droid_builder.formal_verifier import compare_regex_patterns
+            pattern_a = body.get("pattern_a", "")
+            pattern_b = body.get("pattern_b", "")
+            max_depth = int(body.get("max_depth", 25))
+            comp_res = compare_regex_patterns(pattern_a, pattern_b, max_depth=max_depth)
+            self._send_json(comp_res.to_dict())
+            return
+
+        elif path == "/api/transpile":
+            from regex_droid_builder.dialect_transpiler import transpile_regex
+            src_dialect = body.get("source_dialect", "python")
+            tgt_dialect = body.get("target_dialect", "javascript")
+            trans_res = transpile_regex(pattern, source_dialect=src_dialect, target_dialect=tgt_dialect)
+            self._send_json(trans_res.to_dict())
+            return
+
+        elif path == "/api/minimize":
+            from regex_droid_builder.formal_verifier import minimize_dfa
+            builder = AutomatonBuilder()
+            nfa = builder.build_nfa(pattern)
+            dfa_raw = builder.convert_to_dfa(nfa)
+            dfa_min = minimize_dfa(dfa_raw)
+            self._send_json({
+                "pattern": pattern,
+                "original_dfa_states": dfa_raw.total_states,
+                "minimized_dfa_states": dfa_min.total_states,
+                "states_saved": dfa_raw.total_states - dfa_min.total_states,
+                "mermaid_minimized_dfa": to_mermaid_state_diagram(dfa_min),
+            })
+            return
+
         self._send_json({"error": f"Endpoint not found: {path}"}, status=404)
 
     def log_message(self, format: str, *args: Any) -> None:

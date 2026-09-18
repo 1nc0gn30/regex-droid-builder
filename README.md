@@ -13,6 +13,9 @@
 ## ✨ Features
 
 - 🌳 **Regex AST & Natural Language Explainer**: Parses regular expressions into structured AST trees and generates step-by-step, plain-English explanations of literals, character classes, anchors, and quantifiers.
+- ⚖️ **Formal Equivalence & Subset Verifier**: Uses product automaton BFS to formally verify language equivalence ($L(A) == L(B)$) or subset containment ($L(A) \subseteq L(B)$) between two regexes, automatically synthesizing shortest counterexample strings when patterns diverge.
+- 📐 **Canonical DFA State Minimization**: Implements Hopcroft / Moore equivalence partitioning to eliminate redundant states and unreachable cycles, producing mathematically optimal canonical DFAs.
+- 🔄 **Cross-Flavor Dialect Transpiler**: Transpiles regex patterns across **Python (`re`)**, **PCRE2**, **JavaScript (ECMAScript 2024)**, **Go (`regexp` / RE2)**, **Rust (`regex`)**, and **POSIX ERE**, auditing for engine incompatibilities (lookarounds, backreferences, possessive quantifiers).
 - 🛡️ **Static & Empirical ReDoS Defense**: Audits patterns for catastrophic exponential/polynomial backtracking risks (nested quantifiers like `(a+)+`, overlapping alternations inside loops, unanchored greedy wildcards) with complexity estimation (`O(N)`, `O(2^N)`) and remediation fixes.
 - ⚡ **Multi-Language Code Generator**: Generates production-ready, type-safe snippet implementations in **Python (`re`)**, **JavaScript / TypeScript (`RegExp`)**, **Rust (`regex`)**, **Go (`regexp`)**, **Java**, and **C#**.
 - 🎨 **Regex Droid Studio Web UI**: Real-time regex analyzer, interactive multi-line test matrix runner, flag toggles, curated presets catalog, and 1-click code copy (design influenced by Material 3 tokens).
@@ -53,6 +56,15 @@ regex-droid codegen '^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$' --lang python
 # List curated regex presets
 regex-droid presets
 
+# Formally verify regex equivalence or find shortest counterexamples
+regex-droid compare 'a(b|c)' 'ab|ac'
+
+# Transpile regex across dialects (Python -> JavaScript)
+regex-droid transpile '(?P<name>\w+)' --from python --to javascript
+
+# Minimize regex DFA via Hopcroft/Moore state partitioning
+regex-droid minimize 'a(b|c)'
+
 # Launch Regex Droid Studio Web UI (Material 3 influenced)
 regex-droid serve --port 8097
 
@@ -83,9 +95,14 @@ Add `regex-droid-builder` to your Claude Desktop or Cursor configuration:
 ### Registered MCP Tools:
 - `regex_explain`: Parse pattern and flags into plain English step-by-step AST explanation.
 - `regex_analyze_redos`: Static & empirical ReDoS vulnerability audit with complexity estimation and remediation tips.
+- `regex_compare_equivalence`: Formally compare two regular expressions for exact language equivalence $L(A) == L(B)$, subset containment, or disjointness, providing shortest counterexample strings if different.
+- `regex_transpile_dialect`: Transpile regular expressions across dialects (Python, PCRE2, JavaScript, Go/RE2, Rust, POSIX ERE) with engine incompatibility warnings.
+- `regex_minimize_dfa`: Compile a regex into a canonical minimal-state DFA using Hopcroft/Moore equivalence partitioning.
 - `regex_test`: Execute multi-input test matrix against pattern with capture group extraction.
 - `regex_generate_code`: Generate multi-language code snippets (Python, JS, Rust, Go, Java, C#).
 - `regex_presets`: Query curated presets and test cases.
+- `regex_automaton_analysis`: Compile regex into Thompson NFA and Subset-Construction DFA with state explosion checks.
+- `regex_gas_meter`: Trace execution gas consumption step-by-step to prevent computational runaway.
 - `regex_diagnostics`: Platform and toolchain health check.
 
 ---

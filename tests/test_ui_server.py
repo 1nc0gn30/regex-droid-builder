@@ -104,3 +104,30 @@ def test_api_gas_meter(live_server):
         assert data["verdict"] == "SAFE"
 
 
+def test_api_compare(live_server):
+    payload = json.dumps({"pattern_a": r"a(b|c)", "pattern_b": r"ab|ac"}).encode("utf-8")
+    req = urllib.request.Request(f"{live_server}/api/compare", data=payload, headers={"Content-Type": "application/json"})
+    with urllib.request.urlopen(req) as resp:
+        assert resp.status == 200
+        data = json.loads(resp.read().decode("utf-8"))
+        assert data["are_equivalent"] is True
+        assert data["verdict"] == "EQUIVALENT"
+
+
+def test_api_transpile(live_server):
+    payload = json.dumps({"pattern": r"(?P<name>\w+)", "source_dialect": "python", "target_dialect": "javascript"}).encode("utf-8")
+    req = urllib.request.Request(f"{live_server}/api/transpile", data=payload, headers={"Content-Type": "application/json"})
+    with urllib.request.urlopen(req) as resp:
+        assert resp.status == 200
+        data = json.loads(resp.read().decode("utf-8"))
+        assert "(?<name>" in data["target_pattern"]
+
+
+def test_api_minimize(live_server):
+    payload = json.dumps({"pattern": r"a(b|c)"}).encode("utf-8")
+    req = urllib.request.Request(f"{live_server}/api/minimize", data=payload, headers={"Content-Type": "application/json"})
+    with urllib.request.urlopen(req) as resp:
+        assert resp.status == 200
+        data = json.loads(resp.read().decode("utf-8"))
+        assert "minimized_dfa_states" in data
+        assert data["minimized_dfa_states"] > 0

@@ -22,6 +22,11 @@ keywords = [
     "fastmcp",
     "material-3",
     "codegen",
+    "formal-verification",
+    "dfa-minimization",
+    "hopcroft",
+    "dialect-transpiler",
+    "automaton",
     "zero-dependencies"
 ]
 classifiers = [

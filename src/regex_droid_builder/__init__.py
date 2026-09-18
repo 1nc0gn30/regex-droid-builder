@@ -23,6 +23,19 @@ from regex_droid_builder.automaton_engine import (
 )
 from regex_droid_builder.catalog import RegexPreset, get_preset, list_presets
 from regex_droid_builder.codegen import generate_code_snippets
+from regex_droid_builder.dialect_transpiler import (
+    RegexDialectTranspiler,
+    TranspilationResult,
+    TranspilationWarning,
+    transpile_regex,
+)
+from regex_droid_builder.formal_verifier import (
+    DFAEquivalenceVerifier,
+    DFAStateMinimizer,
+    RegexEquivalenceResult,
+    compare_regex_patterns,
+    minimize_dfa,
+)
 from regex_droid_builder.mcp_server import MCPServer, run_mcp_server
 from regex_droid_builder.optimizer import RegexOptimizationResult, optimize_regex
 from regex_droid_builder.redos_detector import (
@@ -56,6 +69,15 @@ __all__ = [
     "GasMeterExecutionResult",
     "ThompsonNFA",
     "to_mermaid_state_diagram",
+    "DFAStateMinimizer",
+    "DFAEquivalenceVerifier",
+    "RegexEquivalenceResult",
+    "minimize_dfa",
+    "compare_regex_patterns",
+    "RegexDialectTranspiler",
+    "TranspilationResult",
+    "TranspilationWarning",
+    "transpile_regex",
     "MCPServer",
     "run_mcp_server",
 ]

@@ -159,6 +159,67 @@ class MCPServer:
                 }
             },
             {
+                "name": "regex_compare_equivalence",
+                "description": "Formally compare two regular expressions for exact language equivalence L(A) == L(B), subset containment, or disjointness, providing shortest counterexample strings if different.",
+                "inputSchema": {
+                    "type": "object",
+                    "properties": {
+                        "pattern_a": {
+                            "type": "string",
+                            "description": "First regex pattern."
+                        },
+                        "pattern_b": {
+                            "type": "string",
+                            "description": "Second regex pattern."
+                        },
+                        "max_depth": {
+                            "type": "integer",
+                            "default": 25,
+                            "description": "Maximum BFS search depth for counterexamples."
+                        }
+                    },
+                    "required": ["pattern_a", "pattern_b"]
+                }
+            },
+            {
+                "name": "regex_transpile_dialect",
+                "description": "Transpile regular expressions across dialects (Python, PCRE2, JavaScript, Go/RE2, Rust, POSIX ERE) with engine incompatibility warnings.",
+                "inputSchema": {
+                    "type": "object",
+                    "properties": {
+                        "pattern": {
+                            "type": "string",
+                            "description": "Source regex pattern."
+                        },
+                        "source_dialect": {
+                            "type": "string",
+                            "default": "python",
+                            "description": "Source dialect (python, pcre, javascript, go, rust, posix_ere)."
+                        },
+                        "target_dialect": {
+                            "type": "string",
+                            "default": "javascript",
+                            "description": "Target dialect (python, pcre, javascript, go, rust, posix_ere)."
+                        }
+                    },
+                    "required": ["pattern"]
+                }
+            },
+            {
+                "name": "regex_minimize_dfa",
+                "description": "Compile a regex into a canonical minimal-state DFA using Hopcroft/Moore equivalence partitioning.",
+                "inputSchema": {
+                    "type": "object",
+                    "properties": {
+                        "pattern": {
+                            "type": "string",
+                            "description": "Regex pattern to minimize."
+                        }
+                    },
+                    "required": ["pattern"]
+                }
+            },
+            {
                 "name": "regex_diagnostics",
                 "description": "Run environment, platform, and regex engine diagnostics.",
                 "inputSchema": {
@@ -326,6 +387,58 @@ class MCPServer:
                     {
                         "type": "text",
                         "text": json.dumps(res.to_dict(), indent=2)
+                    }
+                ]
+            }
+
+        elif tool_name == "regex_compare_equivalence":
+            from regex_droid_builder.formal_verifier import compare_regex_patterns
+            pattern_a = arguments["pattern_a"]
+            pattern_b = arguments["pattern_b"]
+            max_depth = int(arguments.get("max_depth", 25))
+            comp_res = compare_regex_patterns(pattern_a, pattern_b, max_depth=max_depth)
+            return {
+                "content": [
+                    {
+                        "type": "text",
+                        "text": json.dumps(comp_res.to_dict(), indent=2)
+                    }
+                ]
+            }
+
+        elif tool_name == "regex_transpile_dialect":
+            from regex_droid_builder.dialect_transpiler import transpile_regex
+            pattern = arguments["pattern"]
+            source_dialect = arguments.get("source_dialect", "python")
+            target_dialect = arguments.get("target_dialect", "javascript")
+            trans_res = transpile_regex(pattern, source_dialect=source_dialect, target_dialect=target_dialect)
+            return {
+                "content": [
+                    {
+                        "type": "text",
+                        "text": json.dumps(trans_res.to_dict(), indent=2)
+                    }
+                ]
+            }
+
+        elif tool_name == "regex_minimize_dfa":
+            from regex_droid_builder.formal_verifier import minimize_dfa
+            pattern = arguments["pattern"]
+            builder = AutomatonBuilder()
+            nfa = builder.build_nfa(pattern)
+            dfa_raw = builder.convert_to_dfa(nfa)
+            dfa_min = minimize_dfa(dfa_raw)
+            return {
+                "content": [
+                    {
+                        "type": "text",
+                        "text": json.dumps({
+                            "pattern": pattern,
+                            "original_dfa_states": dfa_raw.total_states,
+                            "minimized_dfa_states": dfa_min.total_states,
+                            "states_saved": dfa_raw.total_states - dfa_min.total_states,
+                            "mermaid_minimized_dfa": to_mermaid_state_diagram(dfa_min),
+                        }, indent=2)
                     }
                 ]
             }
