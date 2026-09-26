@@ -1,0 +1,34 @@
+{
+  "name": "regex-droid-builder",
+  "version": "2.0.0",
+  "description": "Visual AST Regex Synthesizer, NFA/DFA Automaton Minimizer & ReDoS Vulnerability Guard — Desktop Workstation",
+  "main": "electron/main.cjs",
+  "bin": {
+    "regex-droid": "./bin/regex-droid.js",
+    "regex-droid-builder": "./bin/regex-droid.js"
+  },
+  "scripts": {
+    "start": "python3 -m regex_droid_builder.cli serve --port 8097",
+    "electron": "electron .",
+    "app": "electron .",
+    "test": "pytest tests/"
+  },
+  "keywords": [
+    "regex",
+    "ast",
+    "nfa",
+    "dfa",
+    "automaton",
+    "redos",
+    "formal-verification",
+    "zero-egress",
+    "sovereign",
+    "electron",
+    "zoth"
+  ],
+  "author": "NullAI Tech / Zoth Team",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^34.5.8"
+  }
+}

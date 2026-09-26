@@ -1,0 +1,20 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Regex Droid Studio
+GenericName=Visual AST Regex Synthesizer & ReDoS Guard
+Comment=Visual AST Regex Synthesizer, NFA/DFA Automaton Minimizer & ReDoS Vulnerability Guard
+Exec=/usr/local/bin/regex-droid desktop
+Icon=/media/neo/f2fdda77-178b-4603-ae80-c7aa4cd97908/regex-droid-builder/assets/icon.png
+Terminal=false
+Categories=Development;Security;System;Utility;
+StartupNotify=true
+Actions=CLI;Web;
+
+[Desktop Action CLI]
+Name=Open Regex Droid CLI
+Exec=x-terminal-emulator -e "/usr/local/bin/regex-droid --help"
+
+[Desktop Action Web]
+Name=Open Web UI (Port 8097)
+Exec=/usr/local/bin/regex-droid web
