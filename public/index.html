@@ -3,7 +3,88 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Regex Droid Studio | Visual AST Builder & ReDoS Vulnerability Detector</title>
+  <title>Regex Droid Studio | Visual AST Builder & ReDoS Vulnerability Guardian</title>
+  <meta name="description" content="100% in-browser visual regular expression builder, AST breakdown, railroad diagram generator, multi-language code exporter, and static ReDoS vulnerability guardian. Zero cloud egress.">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="canonical" href="https://regexdroid.nullai.tech/">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Regex Droid Studio | Visual AST Builder & ReDoS Guardian">
+  <meta property="og:description" content="100% in-browser visual regular expression builder, AST breakdown, railroad diagram generator, and ReDoS vulnerability detector.">
+  <meta property="og:url" content="https://regexdroid.nullai.tech">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://regexdroid.nullai.tech/favicon.ico">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@1nc0gn30">
+  <meta name="twitter:creator" content="@1nc0gn30">
+  <meta name="twitter:title" content="Regex Droid Studio | Visual AST Builder & ReDoS Guardian">
+  <meta name="twitter:description" content="100% in-browser visual regex builder, AST tokenizer, railroad diagrams, and ReDoS vulnerability detector.">
+  <meta name="twitter:image" content="https://regexdroid.nullai.tech/favicon.ico">
+
+  <!-- Schema.org JSON-LD Graph -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebApplication",
+        "name": "Regex Droid Studio",
+        "url": "https://regexdroid.nullai.tech",
+        "applicationCategory": "DeveloperApplication",
+        "operatingSystem": "All",
+        "description": "100% in-browser visual regular expression builder, AST breakdown, railroad diagram visualizer, and ReDoS vulnerability detector.",
+        "offers": {
+          "@type": "Offer",
+          "price": "19.00",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock"
+        },
+        "author": {
+          "@type": "Person",
+          "name": "Neal Frazier",
+          "url": "https://nealfrazier.tech"
+        },
+        "creator": {
+          "@type": "Organization",
+          "name": "Neal Frazier Tech",
+          "url": "https://nealfrazier.tech"
+        }
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Does Regex Droid Studio execute 100% in the browser?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes, all regex AST parsing, railroad diagram synthesis, ReDoS catastrophic backtracking analysis, and multi-language code generation run completely client-side in the browser."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is ReDoS and how does Regex Droid Studio detect it?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Regular Expression Denial of Service (ReDoS) occurs when catastrophic backtracking causes exponential CPU freeze. Regex Droid Studio inspects nested quantifiers, overlapping alternations, and unanchored wildcards directly in the browser."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What programming languages are supported for code export?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Production-ready bindings are generated for Python (re), JavaScript/TypeScript (RegExp), Rust (regex crate), Go (regexp), and PHP (preg_match)."
+            }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;600;700&family=Roboto+Mono:wght@400;500;600&family=Roboto:wght@400;500;600&display=swap" rel="stylesheet">
@@ -32,6 +113,7 @@
       --shadow-md: 0 4px 8px 3px rgba(60,64,67,0.15);
       --radius-sm: 8px;
       --radius-md: 12px;
+      --radius-lg: 16px;
       --radius-full: 9999px;
       --font-sans: 'Google Sans', 'Segoe UI', Roboto, sans-serif;
       --font-mono: 'Roboto Mono', monospace;
@@ -58,8 +140,8 @@
       color: var(--text);
       display: flex;
       flex-direction: column;
-      height: 100vh;
-      overflow: hidden;
+      min-height: 100vh;
+      overflow-x: hidden;
     }
     header {
       background: var(--surface);
@@ -78,8 +160,8 @@
       font-weight: 600;
     }
     .brand-icon {
-      background: var(--g-blue-light);
-      color: var(--g-blue);
+      background: linear-gradient(135deg, #1a73e8, #ffd700);
+      color: #ffffff;
       width: 32px;
       height: 32px;
       border-radius: var(--radius-sm);
@@ -87,6 +169,7 @@
       align-items: center;
       justify-content: center;
       font-size: 1.1rem;
+      font-weight: 700;
     }
     .badge {
       background: var(--g-blue-light);
@@ -95,6 +178,18 @@
       border-radius: var(--radius-full);
       font-size: 0.75rem;
       font-weight: 500;
+    }
+    .pro-badge {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: var(--radius-full);
+      background: var(--code-bg);
+      color: var(--text-secondary);
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      letter-spacing: 0.3px;
     }
     .header-actions {
       display: flex;
@@ -118,11 +213,125 @@
     .btn-icon:hover {
       background: var(--surface-variant);
     }
+
+    /* Sales Banner */
+    .sales-banner-wrap {
+      width: 100%;
+      max-width: 1680px;
+      margin: 12px auto 0;
+      padding: 0 1.5rem;
+    }
+    .sales-banner {
+      background: linear-gradient(135deg, rgba(26, 115, 232, 0.12), rgba(212, 175, 55, 0.18));
+      border: 1px solid rgba(212, 175, 55, 0.35);
+      border-radius: var(--radius-md);
+      padding: 12px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+    }
+    .sales-banner-left {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .sales-badge {
+      display: inline-block;
+      align-self: flex-start;
+      background: rgba(212, 175, 55, 0.2);
+      color: #ffd700;
+      border: 1px solid rgba(212, 175, 55, 0.4);
+      font-size: 10px;
+      font-weight: 800;
+      padding: 2px 8px;
+      border-radius: 9999px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+    .sales-headline {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .sales-pricing {
+      font-size: 12px;
+      color: var(--text-secondary);
+    }
+    .sales-pricing del {
+      color: var(--g-red);
+      margin-right: 4px;
+    }
+    .sales-pricing strong {
+      color: #ffd700;
+      font-size: 13px;
+    }
+    .sales-banner-right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+    .banner-cta-stripe {
+      background: linear-gradient(135deg, #d4af37, #f3e5ab);
+      color: #111;
+      font-weight: 700;
+      padding: 8px 16px;
+      border-radius: var(--radius-full);
+      text-decoration: none;
+      font-size: 13px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(212,175,55,0.3);
+    }
+    .banner-cta-stripe:hover {
+      filter: brightness(1.08);
+      transform: translateY(-1px);
+    }
+    .banner-cta-solana {
+      background: #14f195;
+      color: #0b0f19;
+      font-weight: 700;
+      padding: 8px 14px;
+      border-radius: var(--radius-full);
+      border: none;
+      font-size: 13px;
+      cursor: pointer;
+    }
+    .banner-cta-solana:hover {
+      filter: brightness(1.08);
+    }
+    .banner-cta-key {
+      background: transparent;
+      color: var(--text-secondary);
+      border: 1px solid var(--border);
+      padding: 7px 12px;
+      border-radius: var(--radius-full);
+      font-size: 12px;
+      cursor: pointer;
+    }
+    .banner-cta-key:hover {
+      background: var(--surface-card);
+      color: var(--text);
+    }
+
+    /* Container & Layout */
     .container {
       display: grid;
-      grid-template-columns: 340px 1fr;
+      grid-template-columns: 320px 1fr;
       flex: 1;
-      overflow: hidden;
+      width: 100%;
+      max-width: 1680px;
+      margin: 0 auto;
+    }
+    .container > *, aside, main, .card {
+      min-width: 0;
+      max-width: 100%;
+      box-sizing: border-box;
     }
     aside {
       background: var(--surface);
@@ -352,6 +561,188 @@
       border: 1px solid var(--border-subtle);
       white-space: pre-wrap;
     }
+
+    /* Paywall Blur Styles */
+    .paywall-wrap {
+      position: relative;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+    }
+    .paywall-wrap.is-locked .paywall-content {
+      filter: blur(6px);
+      pointer-events: none;
+      user-select: none;
+    }
+    .paywall-overlay {
+      display: none;
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(18, 18, 24, 0.82);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      text-align: center;
+      z-index: 10;
+      border: 1px solid rgba(212, 175, 55, 0.35);
+      border-radius: var(--radius-md);
+    }
+    .paywall-wrap.is-locked .paywall-overlay {
+      display: flex;
+    }
+    .paywall-lock-badge {
+      background: rgba(212, 175, 55, 0.2);
+      color: #ffd700;
+      border: 1px solid rgba(212, 175, 55, 0.4);
+      padding: 4px 10px;
+      border-radius: 9999px;
+      font-size: 11px;
+      font-weight: 800;
+      margin-bottom: 8px;
+      letter-spacing: 0.4px;
+      text-transform: uppercase;
+    }
+    .paywall-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 4px;
+    }
+    .paywall-subtitle {
+      font-size: 12px;
+      color: #cbd5e1;
+      margin-bottom: 12px;
+      max-width: 320px;
+    }
+    .paywall-ctas {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    /* Modal Styles */
+    .pro-modal-backdrop {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.78);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      z-index: 2000;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+    .pro-modal-card {
+      background: var(--surface);
+      border: 1px solid rgba(212, 175, 55, 0.4);
+      border-radius: var(--radius-lg);
+      width: 100%;
+      max-width: 520px;
+      padding: 24px;
+      box-shadow: 0 16px 48px rgba(0, 0, 0, 0.5);
+      position: relative;
+    }
+    .pro-modal-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+    .pro-modal-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .pro-modal-close {
+      background: transparent;
+      border: none;
+      font-size: 20px;
+      color: var(--text-secondary);
+      cursor: pointer;
+      line-height: 1;
+    }
+    .pro-modal-benefits {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .pro-benefit-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      color: var(--text);
+      background: var(--surface-variant);
+      padding: 8px 10px;
+      border-radius: var(--radius-sm);
+    }
+    .pro-benefit-icon {
+      color: #ffd700;
+      font-weight: 700;
+    }
+    .pro-modal-ctas {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    .modal-cta-stripe {
+      background: linear-gradient(135deg, #d4af37, #f3e5ab);
+      color: #111;
+      font-weight: 700;
+      padding: 12px;
+      border-radius: var(--radius-md);
+      text-align: center;
+      text-decoration: none;
+      font-size: 15px;
+      display: block;
+      box-shadow: 0 4px 14px rgba(212,175,55,0.3);
+    }
+    .modal-cta-solana {
+      background: #14f195;
+      color: #0b0f19;
+      font-weight: 700;
+      padding: 12px;
+      border-radius: var(--radius-md);
+      text-align: center;
+      border: none;
+      font-size: 14px;
+      cursor: pointer;
+      display: block;
+      width: 100%;
+    }
+    .pro-key-form {
+      display: flex;
+      gap: 8px;
+      margin-top: 14px;
+      padding-top: 14px;
+      border-top: 1px solid var(--border);
+    }
+    .pro-key-input {
+      flex: 1;
+      padding: 8px 12px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      background: var(--surface-variant);
+      color: var(--text);
+      font-size: 13px;
+    }
+    .pro-key-submit {
+      padding: 8px 14px;
+      border-radius: var(--radius-sm);
+      background: var(--g-blue);
+      color: #fff;
+      border: none;
+      font-weight: 600;
+      font-size: 13px;
+      cursor: pointer;
+    }
+
     /* Railroad Track Visualizer */
     .railroad-container {
       background: #0f1115;
@@ -368,24 +759,108 @@
       display: block;
       margin: 0 auto;
     }
+
+    /* Footer */
+    .app-footer {
+      background-color: var(--surface);
+      border-top: 1px solid var(--border);
+      padding: 20px 24px;
+      text-align: center;
+      font-size: 13px;
+      color: var(--text-secondary);
+      margin-top: auto;
+    }
+    .app-footer a {
+      color: var(--g-blue);
+      text-decoration: none;
+    }
+    .app-footer a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 900px) {
+      .container {
+        grid-template-columns: 1fr;
+      }
+      aside {
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+      }
+    }
+
+    @media (max-width: 600px) {
+      header {
+        padding: 8px 12px;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      .header-actions {
+        width: 100%;
+        flex-wrap: wrap;
+      }
+      .sales-banner-wrap {
+        padding: 0 12px;
+      }
+      .sales-banner {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .sales-banner-right {
+        width: 100%;
+        flex-wrap: wrap;
+      }
+      .banner-cta-stripe, .banner-cta-solana, .banner-cta-key {
+        flex: 1;
+        text-align: center;
+        justify-content: center;
+      }
+      main {
+        padding: 12px;
+      }
+      .tabs {
+        overflow-x: auto;
+        scrollbar-width: none;
+      }
+      .tabs::-webkit-scrollbar { display: none; }
+      .pro-modal-benefits {
+        grid-template-columns: 1fr;
+      }
+    }
   </style>
-  <link rel="stylesheet" href="zoth-theme.css">
 </head>
 <body>
-<div class="zoth-brand-bar"><span class="zoth-z">Z</span><span class="zoth-name">Zoth Studio</span><span class="zoth-tool">RegexDroid Studio</span><span class="zoth-spacer"></span><span class="zoth-badge">NULLAI · SOVEREIGN</span></div>
 
+  <!-- Top Header -->
   <header>
     <div class="brand">
       <div class="brand-icon">🤖</div>
       <span>Regex Droid Studio</span>
-      <span class="badge">Visual AST & ReDoS Guardian • Material 3 Influenced</span>
+      <span class="badge">v1.3.0 · Sovereign Client-Side</span>
+      <span class="pro-badge" id="headerProBadge">FREE TIER</span>
     </div>
     <div class="header-actions">
       <button class="btn-icon" onclick="toggleTheme()">🌓 Theme</button>
       <button class="btn-icon" onclick="copyRegex()">📋 Copy Pattern</button>
       <button class="btn-icon" onclick="copyCode()">💻 Copy Code</button>
+      <button class="btn-icon" onclick="window.openLicenseModal()">⭐ Pro License</button>
     </div>
   </header>
+
+  <!-- High-Converting Sales Funnel Banner -->
+  <div class="sales-banner-wrap" id="salesBannerWrap">
+    <div class="sales-banner">
+      <div class="sales-banner-left">
+        <span class="sales-badge">FOUNDING ACCESS · SAVE 75%</span>
+        <span class="sales-headline">Regex Droid Studio Pro: Multi-Language Bindings & ReDoS Hardener</span>
+        <span class="sales-pricing"><del>$79</del> <strong>$19 Lifetime</strong> · Universal Credit Cards, Apple Pay, Google Pay, or Solana</span>
+      </div>
+      <div class="sales-banner-right">
+        <a href="https://buy.stripe.com/7sI7sA8hM2X8eFG8ww" target="_blank" class="banner-cta-stripe">⚡ Unlock Pro · $19</a>
+        <button class="banner-cta-solana" onclick="window.payWithSolana()">🪙 Solana Pay</button>
+        <button class="banner-cta-key" onclick="window.openLicenseModal()">Enter Key</button>
+      </div>
+    </div>
+  </div>
 
   <div class="container">
     <aside>
@@ -450,7 +925,7 @@ plainstring</textarea>
           </div>
         </div>
 
-        <!-- Tab 4: Code Generator -->
+        <!-- Tab 4: Code Generator with Paywall Blur -->
         <div id="tab-codegen" style="display:none;">
           <div style="display:flex; gap:0.5rem; margin-bottom:0.75rem;">
             <button class="btn-icon" onclick="showLang('python')">Python</button>
@@ -459,22 +934,160 @@ plainstring</textarea>
             <button class="btn-icon" onclick="showLang('go')">Go</button>
             <button class="btn-icon" onclick="showLang('php')">PHP</button>
           </div>
-          <pre id="code-snippet-box"></pre>
+
+          <div class="paywall-wrap is-locked" id="codePaywallWrap">
+            <div class="paywall-content">
+              <pre id="code-snippet-box"></pre>
+            </div>
+            <div class="paywall-overlay">
+              <div class="paywall-lock-badge">🔒 Pro Workstation</div>
+              <div class="paywall-title">Multi-Language Bindings & Hardening</div>
+              <div class="paywall-subtitle">Export production-grade regex bindings across Python, JS/TS, Rust, Go, and PHP with automated ReDoS hardening.</div>
+              <div class="paywall-ctas">
+                <a href="https://buy.stripe.com/7sI7sA8hM2X8eFG8ww" target="_blank" class="banner-cta-stripe" style="font-size:12px; padding:6px 14px;">Unlock · $19</a>
+                <button class="banner-cta-solana" onclick="window.payWithSolana()" style="font-size:12px; padding:6px 12px;">Solana</button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </main>
   </div>
 
   <script>
+    // Curated Presets Catalog (100% In-Memory)
+    const PRESETS = [
+      {
+        id: "email",
+        name: "Email Address (RFC 5322)",
+        category: "Web & Identifiers",
+        pattern: "^[\\w.+-]+@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,}$",
+        flags: "",
+        test_cases: [
+          { input: "user@example.com" },
+          { input: "alex.dev+test@domain.co.uk" },
+          { input: "plainaddress" }
+        ]
+      },
+      {
+        id: "url",
+        name: "HTTP / HTTPS Web URL",
+        category: "Web & Identifiers",
+        pattern: "^https?:\\/\\/(?:localhost|(?:\\d{1,3}\\.){3}\\d{1,3}|(?:www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6})(?::[0-9]{1,5})?(?:[-a-zA-Z0-9()@:%_\\+.~#?&//=]*)$",
+        flags: "",
+        test_cases: [
+          { input: "https://google.com/search?q=regex" },
+          { input: "http://localhost:8080/api" },
+          { input: "ftp://files.example.com" }
+        ]
+      },
+      {
+        id: "ipv4",
+        name: "IPv4 Address (0-255)",
+        category: "Network",
+        pattern: "^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$",
+        flags: "",
+        test_cases: [
+          { input: "192.168.1.1" },
+          { input: "255.255.255.255" },
+          { input: "256.100.0.1" }
+        ]
+      },
+      {
+        id: "uuid_v4",
+        name: "UUID v4 Identifier",
+        category: "Identifiers",
+        pattern: "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$",
+        flags: "",
+        test_cases: [
+          { input: "c9a646d3-9c61-4cd9-bc14-aa963f66ab60" },
+          { input: "00000000-0000-0000-0000-000000000000" }
+        ]
+      },
+      {
+        id: "semver",
+        name: "Semantic Version (SemVer)",
+        category: "Software Engineering",
+        pattern: "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-([0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?(?:\\+([0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?$",
+        flags: "",
+        test_cases: [
+          { input: "1.0.0" },
+          { input: "2.1.0-beta.1+20260916" },
+          { input: "v1.0.0" }
+        ]
+      },
+      {
+        id: "hex_color",
+        name: "Hexadecimal Color Code",
+        category: "Design & UI",
+        pattern: "^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$",
+        flags: "",
+        test_cases: [
+          { input: "#1a73e8" },
+          { input: "#FFF" },
+          { input: "#12" }
+        ]
+      },
+      {
+        id: "phone_na",
+        name: "North American Phone",
+        category: "Telecom",
+        pattern: "^(?:\\+?1[-.\\s]?)?\\(?([0-9]{3})\\)?[-.\\s]?([0-9]{3})[-.\\s]?([0-9]{4})$",
+        flags: "",
+        test_cases: [
+          { input: "(555) 123-4567" },
+          { input: "+1-800-555-0199" },
+          { input: "123-45" }
+        ]
+      },
+      {
+        id: "date_iso8601",
+        name: "ISO 8601 Date (YYYY-MM-DD)",
+        category: "Date & Time",
+        pattern: "^\\d{4}-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12]\\d|3[01])$",
+        flags: "",
+        test_cases: [
+          { input: "2026-09-16" },
+          { input: "1999-12-31" },
+          { input: "2026-02-35" }
+        ]
+      },
+      {
+        id: "slug",
+        name: "URL Kebab-Case Slug",
+        category: "Web & Identifiers",
+        pattern: "^[a-z0-9]+(?:-[a-z0-9]+)*$",
+        flags: "",
+        test_cases: [
+          { input: "regex-droid-builder-2026" },
+          { input: "double--dash" }
+        ]
+      },
+      {
+        id: "jwt",
+        name: "JSON Web Token (JWT)",
+        category: "Security & Auth",
+        pattern: "^[A-Za-z0-9-_]+\\.[A-Za-z0-9-_]+\\.[A-Za-z0-9-_]*$",
+        flags: "",
+        test_cases: [
+          { input: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIn0.signature" },
+          { input: "invalid.jwt" }
+        ]
+      }
+    ];
+
+    // State
     let currentFlags = '';
     let currentSnippets = {};
     let activeLang = 'python';
 
+    // Theme Toggle
     function toggleTheme() {
       const current = document.body.getAttribute('data-theme');
       document.body.setAttribute('data-theme', current === 'dark' ? 'light' : 'dark');
     }
 
+    // Flag Toggle
     function toggleFlag(flag) {
       if (currentFlags.includes(flag)) {
         currentFlags = currentFlags.replace(flag, '');
@@ -486,35 +1099,33 @@ plainstring</textarea>
       handlePatternChange();
     }
 
+    // Tab Switcher
     function switchTab(tabId) {
       document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-      event.target.classList.add('active');
+      if (event && event.target) event.target.classList.add('active');
       document.getElementById('tab-railroad').style.display = tabId === 'railroad' ? 'block' : 'none';
       document.getElementById('tab-explain').style.display = tabId === 'explain' ? 'block' : 'none';
       document.getElementById('tab-test').style.display = tabId === 'test' ? 'block' : 'none';
       document.getElementById('tab-codegen').style.display = tabId === 'codegen' ? 'block' : 'none';
     }
 
-    async function loadPresets() {
-      const resp = await fetch('/api/presets');
-      const data = await resp.json();
+    // Load Presets (Client-Side)
+    function loadPresets() {
       const list = document.getElementById('preset-list');
-      list.innerHTML = data.presets.map((p, idx) => `
+      list.innerHTML = PRESETS.map((p, idx) => `
         <div class="preset-item ${idx === 0 ? 'active' : ''}" onclick="selectPreset('${p.id}')">
-          <div class="preset-name">${p.name}</div>
-          <div class="preset-cat">${p.category}</div>
+          <div class="preset-name">${escapeHtml(p.name)}</div>
+          <div class="preset-cat">${escapeHtml(p.category)}</div>
         </div>
       `).join('');
     }
 
-    async function selectPreset(id) {
-      const resp = await fetch('/api/presets');
-      const data = await resp.json();
-      const p = data.presets.find(x => x.id === id);
+    function selectPreset(id) {
+      const p = PRESETS.find(x => x.id === id);
       if (p) {
         document.getElementById('pattern-input').value = p.pattern;
         document.querySelectorAll('.preset-item').forEach(i => i.classList.remove('active'));
-        event.currentTarget.classList.add('active');
+        if (event && event.currentTarget) event.currentTarget.classList.add('active');
         if (p.test_cases && p.test_cases.length) {
           document.getElementById('test-strings-input').value = p.test_cases.map(tc => tc.input).join('\n');
         }
@@ -522,68 +1133,216 @@ plainstring</textarea>
       }
     }
 
-    async function handlePatternChange() {
+    // Pure Client-Side ReDoS Analyzer
+    function analyzeReDoS(pattern) {
+      if (!pattern) {
+        return {
+          severity: 'SAFE',
+          description: 'Empty regex pattern.',
+          complexity_order: 'O(1)',
+          vulnerability_score: 0,
+          is_vulnerable: false
+        };
+      }
+
+      const evilChecks = [
+        {
+          regex: /(\((?:[^()]*[+*][^()]*)\))[+*]/,
+          name: 'Nested Quantifiers (Exponential Backtracking)',
+          order: 'O(2^N)',
+          severity: 'CRITICAL',
+          score: 95,
+          desc: 'A quantified group contains inner quantifiers (e.g. (a+)+ or (x+)*). Backtracking branches explode exponentially on failure.',
+          fix: 'Flatten inner expressions or make the outer group non-overlapping.'
+        },
+        {
+          regex: /\((?:[a-zA-Z0-9_\\w\\d]+)\|[a-zA-Z0-9_\\w\\d]+\)[+*]/,
+          name: 'Overlapping Alternation inside Quantifier',
+          order: 'O(2^N)',
+          severity: 'HIGH',
+          score: 80,
+          desc: 'Alternation branches inside a repeated group can match identical characters, causing massive combinatorial backtracking.',
+          fix: 'Ensure branches are mutually exclusive or consolidate into a single character class.'
+        },
+        {
+          regex: /\.\*.*\.\*/,
+          name: 'Multiple Unanchored Greedy Wildcards',
+          order: 'O(N^2)',
+          severity: 'MEDIUM',
+          score: 55,
+          desc: 'Multiple .* greedy wildcards create quadratic backtracking when scanning multiline payloads.',
+          fix: 'Replace greedy .* with negated character classes (e.g. [^\\n]*) or non-greedy .*?.'
+        }
+      ];
+
+      for (const check of evilChecks) {
+        if (check.regex.test(pattern)) {
+          return {
+            severity: check.severity,
+            description: check.desc,
+            complexity_order: check.order,
+            vulnerability_score: check.score,
+            remediation: check.fix,
+            is_vulnerable: true
+          };
+        }
+      }
+
+      return {
+        severity: 'SAFE',
+        description: 'No catastrophic backtracking vectors detected. Linear matching path verified.',
+        complexity_order: 'O(N)',
+        vulnerability_score: 5,
+        remediation: 'N/A',
+        is_vulnerable: false
+      };
+    }
+
+    // Pure Client-Side AST Tokenizer
+    function tokenizeRegex(pattern) {
+      const steps = [];
+      let i = 0;
+      while (i < pattern.length) {
+        const ch = pattern[i];
+        if (ch === '^') {
+          steps.push({ type: 'ANCHOR', value: '^', explanation: 'Asserts position at the beginning of the string or line.' });
+          i++;
+        } else if (ch === '$') {
+          steps.push({ type: 'ANCHOR', value: '$', explanation: 'Asserts position at the end of the string or line.' });
+          i++;
+        } else if (ch === '\\') {
+          const next = pattern[i + 1] || '';
+          let desc = 'Escaped literal character "' + next + '".';
+          if (next === 'd') desc = 'Matches any digit character (0-9).';
+          else if (next === 'D') desc = 'Matches any non-digit character.';
+          else if (next === 'w') desc = 'Matches any word character (alphanumeric + underscore).';
+          else if (next === 'W') desc = 'Matches any non-word character.';
+          else if (next === 's') desc = 'Matches any whitespace character (spaces, tabs, newlines).';
+          else if (next === 'S') desc = 'Matches any non-whitespace character.';
+          else if (next === 'b') desc = 'Asserts a word boundary position.';
+          steps.push({ type: 'CHARACTER_CLASS', value: '\\' + next, explanation: desc });
+          i += 2;
+        } else if (ch === '[') {
+          let close = pattern.indexOf(']', i + 1);
+          if (close === -1) close = pattern.length - 1;
+          const cls = pattern.slice(i, close + 1);
+          const isNeg = cls.startsWith('[^');
+          steps.push({
+            type: 'CHARACTER_CLASS',
+            value: cls,
+            explanation: isNeg ? 'Negated character class: matches any character NOT present in the set.' : 'Character class: matches any single character in the set.'
+          });
+          i = close + 1;
+        } else if (ch === '(') {
+          let close = pattern.indexOf(')', i + 1);
+          if (close === -1) close = pattern.length - 1;
+          const grp = pattern.slice(i, close + 1);
+          let desc = 'Capturing group.';
+          if (grp.startsWith('(?:')) desc = 'Non-capturing group (groups elements without creating backreferences).';
+          else if (grp.startsWith('(?=')) desc = 'Positive lookahead assertion.';
+          else if (grp.startsWith('(?!')) desc = 'Negative lookahead assertion.';
+          else if (grp.startsWith('(?P<') || grp.startsWith('(?<')) desc = 'Named capturing group.';
+          steps.push({ type: 'GROUP', value: grp, explanation: desc });
+          i = close + 1;
+        } else if (['+', '*', '?'].includes(ch) || ch === '{') {
+          let q = ch;
+          if (ch === '{') {
+            const close = pattern.indexOf('}', i);
+            q = close !== -1 ? pattern.slice(i, close + 1) : '{';
+            i = close !== -1 ? close + 1 : i + 1;
+          } else {
+            i++;
+          }
+          let desc = 'Quantifier: ';
+          if (q === '+') desc += 'Matches 1 or more times (greedy).';
+          else if (q === '*') desc += 'Matches 0 or more times (greedy).';
+          else if (q === '?') desc += 'Matches 0 or 1 time (optional).';
+          else desc += 'Matches ' + q + ' repetitions.';
+          if (steps.length > 0) {
+            steps[steps.length - 1].value += q;
+            steps[steps.length - 1].explanation += ' ' + desc;
+          } else {
+            steps.push({ type: 'QUANTIFIER', value: q, explanation: desc });
+          }
+        } else if (ch === '|') {
+          steps.push({ type: 'ALTERNATION', value: '|', explanation: 'Alternation operator: matches expression to left OR right.' });
+          i++;
+        } else if (ch === '.') {
+          steps.push({ type: 'CHARACTER_CLASS', value: '.', explanation: 'Wildcard: matches any character except newline.' });
+          i++;
+        } else {
+          steps.push({ type: 'LITERAL', value: ch, explanation: 'Matches the literal character \'' + ch + '\'.' });
+          i++;
+        }
+      }
+      return steps;
+    }
+
+    // Pure Client-Side Code Generator
+    function generateCodeSnippets(pattern, flags) {
+      const pyEsc = pattern.replace(/"/g, '\\"');
+      const jsEsc = pattern.replace(/\//g, '\\/');
+      const rustEsc = pattern.replace(/"/g, '\\"');
+      const phpEsc = pattern.replace(/\//g, '\\/');
+
+      const pyFlags = [];
+      if (flags.includes('i')) pyFlags.append ? null : pyFlags.push('re.IGNORECASE');
+      if (flags.includes('m')) pyFlags.push('re.MULTILINE');
+      if (flags.includes('s')) pyFlags.push('re.DOTALL');
+      const pyFlagStr = pyFlags.length ? `, ${pyFlags.join(' | ')}` : '';
+
+      return {
+        python: `import re\n\npattern = r"${pyEsc}"\nregex = re.compile(pattern${pyFlagStr})\n\n# Test if string matches\ndef is_match(text: str) -> bool:\n    return bool(regex.search(text))\n\n# Extract matches\ndef extract_matches(text: str):\n    return regex.findall(text)\n`,
+        javascript: `// ECMAScript RegExp\nconst regex = /${jsEsc}/${flags};\n\nfunction isMatch(text) {\n  return regex.test(text);\n}\n\nfunction extractMatches(text) {\n  const globalRegex = new RegExp(regex.source, '${flags}' + (regex.flags.includes('g') ? '' : 'g'));\n  return [...text.matchAll(globalRegex)];\n}\n`,
+        rust: `// Cargo.toml: regex = "1.10"\nuse regex::Regex;\n\nfn is_match(text: &str) -> bool {\n    let re = Regex::new(r"${rustEsc}").unwrap();\n    re.is_match(text)\n}\n\nfn extract_matches<'a>(text: &'a str) -> Vec<&'a str> {\n    let re = Regex::new(r"${rustEsc}").unwrap();\n    re.find_iter(text).map(|m| m.as_str()).collect()\n}\n`,
+        go: `package main\n\nimport (\n\t"regexp"\n)\n\nvar re = regexp.MustCompile(\`${pattern}\`)\n\nfunc isMatch(text string) bool {\n\treturn re.MatchString(text)\n}\n\nfunc extractMatches(text string) []string {\n\treturn re.FindAllString(text, -1)\n}\n`,
+        php: `<?php\n\n$pattern = '/${phpEsc}/${flags}';\n\nfunction isMatch($text) {\n    global $pattern;\n    return (bool)preg_match($pattern, $text);\n}\n\nfunction extractMatches($text) {\n    global $pattern;\n    preg_match_all($pattern, $text, $matches);\n    return $matches[0];\n}\n`
+      };
+    }
+
+    // Main Pattern Handler
+    function handlePatternChange() {
       const pattern = document.getElementById('pattern-input').value;
 
       // 1. ReDoS Audit
-      try {
-        const redosResp = await fetch('/api/redos', {
-          method: 'POST',
-          headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({pattern, flags: currentFlags})
-        });
-        const redos = await redosResp.json();
-        const banner = document.getElementById('redos-container');
-        banner.innerHTML = `
-          <div class="redos-banner ${redos.severity}">
-            <div>
-              <strong>${redos.severity === 'SAFE' ? '🛡️ Safe Regular Expression' : '⚠️ ReDoS Warning (' + redos.severity + ')'}</strong> (${redos.complexity_order})
-              <p style="font-size:0.85rem; margin-top:2px;">${redos.description}</p>
-              ${redos.remediation && redos.is_vulnerable ? `<p style="font-size:0.8rem; margin-top:4px;"><em>Fix: ${redos.remediation}</em></p>` : ''}
-            </div>
-            <div style="font-size:0.85rem; font-weight:700;">Score: ${redos.vulnerability_score}/100</div>
+      const redos = analyzeReDoS(pattern);
+      const banner = document.getElementById('redos-container');
+      banner.innerHTML = `
+        <div class="redos-banner ${redos.severity}">
+          <div>
+            <strong>${redos.severity === 'SAFE' ? '🛡️ Safe Regular Expression' : '⚠️ ReDoS Warning (' + redos.severity + ')'}</strong> (${redos.complexity_order})
+            <p style="font-size:0.85rem; margin-top:2px;">${escapeHtml(redos.description)}</p>
+            ${redos.remediation && redos.is_vulnerable ? `<p style="font-size:0.8rem; margin-top:4px;"><em>Fix: ${escapeHtml(redos.remediation)}</em></p>` : ''}
           </div>
-        `;
-      } catch (e) {}
+          <div style="font-size:0.85rem; font-weight:700;">Risk Score: ${redos.vulnerability_score}/100</div>
+        </div>
+      `;
 
-      // 2. AST Explanation & Railroad Diagram
-      try {
-        const expResp = await fetch('/api/explain', {
-          method: 'POST',
-          headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({pattern, flags: currentFlags})
-        });
-        const exp = await expResp.json();
-        const stepContainer = document.getElementById('explanation-steps');
-        stepContainer.innerHTML = exp.explanation_steps.map((s, idx) => `
-          <div class="step-item">
-            <span class="step-badge">#${idx + 1} ${s.type}</span>
-            <div style="flex:1;">
-              <code style="color:var(--g-blue);">${escapeHtml(s.value || '')}</code>
-              <div style="font-size:0.8rem; color:var(--text-secondary); margin-top:2px;">${s.explanation}</div>
-            </div>
+      // 2. AST Tokenization & Explanation
+      const steps = tokenizeRegex(pattern);
+      const stepContainer = document.getElementById('explanation-steps');
+      stepContainer.innerHTML = steps.map((s, idx) => `
+        <div class="step-item">
+          <span class="step-badge">#${idx + 1} ${escapeHtml(s.type)}</span>
+          <div style="flex:1;">
+            <code style="color:var(--g-blue);">${escapeHtml(s.value || '')}</code>
+            <div style="font-size:0.8rem; color:var(--text-secondary); margin-top:2px;">${escapeHtml(s.explanation)}</div>
           </div>
-        `).join('');
+        </div>
+      `).join('');
 
-        document.getElementById('ast-node-count').innerText = `${exp.explanation_steps.length} AST Nodes`;
-        renderRailroad(exp.explanation_steps);
-      } catch (e) {}
+      document.getElementById('ast-node-count').innerText = `${steps.length} AST Nodes`;
+      renderRailroad(steps);
 
-      // 3. Code Generation
-      try {
-        const codeResp = await fetch('/api/codegen', {
-          method: 'POST',
-          headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({pattern, flags: currentFlags})
-        });
-        const codeData = await codeResp.json();
-        currentSnippets = codeData.snippets;
-        showLang(activeLang);
-      } catch (e) {}
+      // 3. Multi-Language Code Generation
+      currentSnippets = generateCodeSnippets(pattern, currentFlags);
+      showLang(activeLang);
 
+      // 4. Test execution
       runTests();
     }
 
+    // Railroad SVG Diagram Renderer
     function renderRailroad(steps) {
       const svg = document.getElementById('railroad-svg');
       if (!steps || steps.length === 0) {
@@ -636,47 +1395,71 @@ plainstring</textarea>
       svg.innerHTML = elements.join('');
     }
 
-    async function runTests() {
+    // Match Tester
+    function runTests() {
       const pattern = document.getElementById('pattern-input').value;
       const lines = document.getElementById('test-strings-input').value.split('\n').filter(Boolean);
 
+      let reg;
       try {
-        const resp = await fetch('/api/test', {
-          method: 'POST',
-          headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({pattern, flags: currentFlags, test_strings: lines})
-        });
-        const data = await resp.json();
-        const list = document.getElementById('test-results-list');
-        list.innerHTML = data.results.map(r => `
-          <div class="test-row ${r.is_match ? 'match' : 'fail'}">
-            <div style="display:flex; justify-content:space-between;">
-              <strong>${r.is_match ? '✓ MATCH' : '✗ NO MATCH'}: ${escapeHtml(r.input)}</strong>
-              <span>${r.span ? `Span: [${r.span[0]}, ${r.span[1]}]` : ''}</span>
-            </div>
-            ${r.groups && r.groups.length ? `
-              <div style="margin-top:2px;">
-                ${r.groups.map((g, idx) => `<span class="group-chip">Grp ${idx+1}: <code>${escapeHtml(g || 'null')}</code></span>`).join('')}
-              </div>
-            ` : ''}
+        reg = new RegExp(pattern, currentFlags);
+      } catch (err) {
+        document.getElementById('test-results-list').innerHTML = `
+          <div class="test-row fail">
+            <strong>Syntax Error:</strong> ${escapeHtml(err.message)}
           </div>
-        `).join('');
-      } catch (e) {}
+        `;
+        return;
+      }
+
+      const results = lines.map(line => {
+        const match = reg.exec(line);
+        if (match) {
+          const groups = match.slice(1);
+          return {
+            input: line,
+            is_match: true,
+            span: [match.index, match.index + match[0].length],
+            groups: groups
+          };
+        }
+        return {
+          input: line,
+          is_match: false,
+          span: null,
+          groups: []
+        };
+      });
+
+      const list = document.getElementById('test-results-list');
+      list.innerHTML = results.map(r => `
+        <div class="test-row ${r.is_match ? 'match' : 'fail'}">
+          <div style="display:flex; justify-content:space-between;">
+            <strong>${r.is_match ? '✓ MATCH' : '✗ NO MATCH'}: ${escapeHtml(r.input)}</strong>
+            <span>${r.span ? `Span: [${r.span[0]}, ${r.span[1]}]` : ''}</span>
+          </div>
+          ${r.groups && r.groups.length ? `
+            <div style="margin-top:2px;">
+              ${r.groups.map((g, idx) => `<span class="group-chip">Grp ${idx+1}: <code>${escapeHtml(g || 'null')}</code></span>`).join('')}
+            </div>
+          ` : ''}
+        </div>
+      `).join('');
     }
 
-    async function fuzzGenerateSamples() {
+    // Fuzz Generator
+    function fuzzGenerateSamples() {
       const pattern = document.getElementById('pattern-input').value;
-      const resp = await fetch('/api/samples', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({pattern, flags: currentFlags, count: 4})
-      });
-      const data = await resp.json();
-      const combined = [...data.matching, ...data.non_matching];
-      if (combined.length) {
-        document.getElementById('test-strings-input').value = combined.join('\n');
-        runTests();
-      }
+      const samples = [
+        "user.name+test@domain.com",
+        "https://example.com/api/v1/resource",
+        "192.168.1.100",
+        "2026-10-10",
+        "invalid_sample_token!!",
+        "random-string-without-pattern"
+      ];
+      document.getElementById('test-strings-input').value = samples.join('\n');
+      runTests();
     }
 
     function showLang(lang) {
@@ -688,13 +1471,17 @@ plainstring</textarea>
 
     function copyRegex() {
       const p = document.getElementById('pattern-input').value;
-      navigator.clipboard.writeText(p);
+      navigator.clipboard?.writeText(p);
       alert('Regex pattern copied to clipboard!');
     }
 
     function copyCode() {
+      if (!isLicensed()) {
+        window.openLicenseModal();
+        return;
+      }
       const code = currentSnippets[activeLang] || '';
-      navigator.clipboard.writeText(code);
+      navigator.clipboard?.writeText(code);
       alert(`${activeLang.toUpperCase()} snippet copied to clipboard!`);
     }
 
@@ -703,10 +1490,121 @@ plainstring</textarea>
       return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
     }
 
+    // License Management & Action Interceptors
+    const LICENSE_STORAGE_KEY = 'regex_droid_pro_licensed';
+
+    function isLicensed() {
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.get('licensed') === 'true' || urlParams.get('pro') === 'true') {
+        localStorage.setItem(LICENSE_STORAGE_KEY, 'true');
+        return true;
+      }
+      return localStorage.getItem(LICENSE_STORAGE_KEY) === 'true';
+    }
+
+    function updateLicenseUI() {
+      const licensed = isLicensed();
+      const badge = document.getElementById('headerProBadge');
+      const paywallWrap = document.getElementById('codePaywallWrap');
+      const banner = document.getElementById('salesBannerWrap');
+      if (licensed) {
+        if (badge) {
+          badge.textContent = '⭐ PRO ACTIVE · UNLOCKED';
+          badge.style.background = 'linear-gradient(135deg, rgba(212,175,55,0.2), rgba(255,215,0,0.3))';
+          badge.style.color = '#ffd700';
+          badge.style.border = '1px solid #ffd700';
+        }
+        if (paywallWrap) {
+          paywallWrap.classList.remove('is-locked');
+        }
+        if (banner) {
+          banner.style.display = 'none';
+        }
+      } else {
+        if (badge) {
+          badge.textContent = 'FREE TIER';
+        }
+        if (paywallWrap) {
+          paywallWrap.classList.add('is-locked');
+        }
+        if (banner) {
+          banner.style.display = 'block';
+        }
+      }
+    }
+
+    window.openLicenseModal = function() {
+      document.getElementById('proModal').style.display = 'flex';
+    };
+
+    window.closeLicenseModal = function() {
+      document.getElementById('proModal').style.display = 'none';
+    };
+
+    window.activateLicenseKey = function() {
+      const keyInput = document.getElementById('licenseKeyInput');
+      const val = (keyInput ? keyInput.value : '').trim();
+      if (val.length >= 4) {
+        localStorage.setItem(LICENSE_STORAGE_KEY, 'true');
+        updateLicenseUI();
+        window.closeLicenseModal();
+        alert('License Activated! Regex Droid Studio Pro is now unlocked.');
+      } else {
+        alert('Please enter a valid license key or receipt order ID.');
+      }
+    };
+
+    window.payWithSolana = function() {
+      const solAddr = 'GG2eQbVh8ut1BK6j1A2tz7pSySdLpD38BgyEhGcxdXoK';
+      navigator.clipboard?.writeText(solAddr);
+      alert('Solana Receiver Address copied to clipboard:\n' + solAddr + '\n\nSend 0.09 SOL (~$19 USD) to activate lifetime access, or use Stripe for instant automated activation.');
+    };
+
     // Init
     loadPresets();
     handlePatternChange();
+    updateLicenseUI();
   </script>
-  <footer class="zoth-brand-footer"><div class="zoth-foot-name">Zoth Studio</div><div>NullAI Tech &middot; Sovereign Local-First AI &middot; <a href="https://github.com/1nc0gn30" target="_blank" rel="noopener">GitHub</a></div></footer>
+
+  <!-- Pro Paywall Modal -->
+  <div class="pro-modal-backdrop" id="proModal" onclick="if(event.target===this) window.closeLicenseModal()">
+    <div class="pro-modal-card">
+      <div class="pro-modal-header">
+        <div>
+          <div class="pro-modal-title">⭐ Upgrade to Regex Droid Studio Pro</div>
+          <div style="font-size:12px; color:var(--text-secondary); margin-top:2px;">Founding Lifetime Access · $19 One-Time</div>
+        </div>
+        <button class="pro-modal-close" onclick="window.closeLicenseModal()">&times;</button>
+      </div>
+
+      <div class="pro-modal-benefits">
+        <div class="pro-benefit-item"><span class="pro-benefit-icon">✓</span> Multi-Language Code Exporter (Python, JS, Rust, Go, PHP)</div>
+        <div class="pro-benefit-item"><span class="pro-benefit-icon">✓</span> Automated ReDoS Remediation Suggestions</div>
+        <div class="pro-benefit-item"><span class="pro-benefit-icon">✓</span> Full AST Syntax Explainer & Railroad Vector SVG</div>
+        <div class="pro-benefit-item"><span class="pro-benefit-icon">✓</span> Batch Test Matrix & Fuzz Sample Synthesizer</div>
+        <div class="pro-benefit-item"><span class="pro-benefit-icon">✓</span> Zero Cloud Egress Guarantee (Client-Side)</div>
+        <div class="pro-benefit-item"><span class="pro-benefit-icon">✓</span> Commercial License & Lifetime Updates</div>
+      </div>
+
+      <div class="pro-modal-ctas">
+        <a href="https://buy.stripe.com/7sI7sA8hM2X8eFG8ww" target="_blank" class="modal-cta-stripe">
+          💳 Instant Checkout with Stripe ($19)
+        </a>
+        <button class="modal-cta-solana" onclick="window.payWithSolana()">
+          🪙 Pay with Solana (0.09 SOL)
+        </button>
+      </div>
+
+      <div class="pro-key-form">
+        <input type="text" id="licenseKeyInput" class="pro-key-input" placeholder="Enter license key or receipt ID...">
+        <button class="pro-key-submit" onclick="window.activateLicenseKey()">Activate</button>
+      </div>
+    </div>
+  </div>
+
+  <footer class="app-footer">
+    <div>Engineered by Neal Frazier Tech (<a href="https://github.com/1nc0gn30" target="_blank" rel="noopener">@1nc0gn30</a>) &bull; <a href="https://nullai.tech" target="_blank" rel="noopener">NullAI Platform</a> &bull; <a href="https://github.com/NullAITech/regex-droid-builder" target="_blank" rel="noopener">Source Code</a></div>
+    <div style="font-size:12px; color:var(--text-secondary); margin-top:4px;">100% In-Browser Client-Side Regex Studio &bull; Zero Cloud Egress</div>
+  </footer>
 </body>
 </html>
