@@ -6,6 +6,8 @@
   <title>Regex Droid Studio | Visual AST Builder & ReDoS Vulnerability Guardian</title>
   <meta name="description" content="100% in-browser visual regular expression builder, AST breakdown, railroad diagram generator, multi-language code exporter, and static ReDoS vulnerability guardian. Zero cloud egress.">
   <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="512x512" href="/assets/icon.png">
+  <link rel="apple-touch-icon" href="/assets/icon.png">
   <link rel="canonical" href="https://regexdroid.nullai.tech/">
 
   <!-- Open Graph -->
@@ -13,7 +15,7 @@
   <meta property="og:description" content="100% in-browser visual regular expression builder, AST breakdown, railroad diagram generator, and ReDoS vulnerability detector.">
   <meta property="og:url" content="https://regexdroid.nullai.tech">
   <meta property="og:type" content="website">
-  <meta property="og:image" content="https://regexdroid.nullai.tech/favicon.ico">
+  <meta property="og:image" content="https://regexdroid.nullai.tech/assets/banner.png">
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
@@ -21,7 +23,7 @@
   <meta name="twitter:creator" content="@1nc0gn30">
   <meta name="twitter:title" content="Regex Droid Studio | Visual AST Builder & ReDoS Guardian">
   <meta name="twitter:description" content="100% in-browser visual regex builder, AST tokenizer, railroad diagrams, and ReDoS vulnerability detector.">
-  <meta name="twitter:image" content="https://regexdroid.nullai.tech/favicon.ico">
+  <meta name="twitter:image" content="https://regexdroid.nullai.tech/assets/banner.png">
 
   <!-- Schema.org JSON-LD Graph -->
   <script type="application/ld+json">
@@ -836,7 +838,7 @@
       <div class="brand-icon">🤖</div>
       <span>Regex Droid Studio</span>
       <span class="badge">v1.3.0 · Sovereign Client-Side</span>
-      <span class="pro-badge" id="headerProBadge">FREE TIER</span>
+      <span class="pro-badge" id="licenseBadge">⚡ FREE TIER</span>
     </div>
     <div class="header-actions">
       <button class="btn-icon" onclick="toggleTheme()">🌓 Theme</button>
@@ -1504,12 +1506,12 @@ plainstring</textarea>
 
     function updateLicenseUI() {
       const licensed = isLicensed();
-      const badge = document.getElementById('headerProBadge');
+      const badge = document.getElementById('licenseBadge') || document.getElementById('headerProBadge');
       const paywallWrap = document.getElementById('codePaywallWrap');
       const banner = document.getElementById('salesBannerWrap');
       if (licensed) {
         if (badge) {
-          badge.textContent = '⭐ PRO ACTIVE · UNLOCKED';
+          badge.textContent = '⭐ PRO ACTIVE';
           badge.style.background = 'linear-gradient(135deg, rgba(212,175,55,0.2), rgba(255,215,0,0.3))';
           badge.style.color = '#ffd700';
           badge.style.border = '1px solid #ffd700';
@@ -1522,7 +1524,7 @@ plainstring</textarea>
         }
       } else {
         if (badge) {
-          badge.textContent = 'FREE TIER';
+          badge.textContent = '⚡ FREE TIER';
         }
         if (paywallWrap) {
           paywallWrap.classList.add('is-locked');
@@ -1603,7 +1605,7 @@ plainstring</textarea>
   </div>
 
   <footer class="app-footer">
-    <div>Engineered by Neal Frazier Tech (<a href="https://github.com/1nc0gn30" target="_blank" rel="noopener">@1nc0gn30</a>) &bull; <a href="https://nullai.tech" target="_blank" rel="noopener">NullAI Platform</a> &bull; <a href="https://github.com/NullAITech/regex-droid-builder" target="_blank" rel="noopener">Source Code</a></div>
+    <div>Engineered by Neal Frazier Tech (<a href="https://github.com/1nc0gn30" target="_blank" rel="noopener">@1nc0gn30</a>) &bull; <a href="https://nullai.tech" target="_blank" rel="noopener">NullAI Platform</a> &bull; <a href="https://github.com/1nc0gn30/regex-droid-builder" target="_blank" rel="noopener">Source Code</a></div>
     <div style="font-size:12px; color:var(--text-secondary); margin-top:4px;">100% In-Browser Client-Side Regex Studio &bull; Zero Cloud Egress</div>
   </footer>
 </body>
