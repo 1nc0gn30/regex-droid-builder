@@ -1,17 +1,24 @@
 {
   "name": "regex-droid-builder",
-  "version": "2.0.0",
+  "version": "2.5.0",
   "description": "Visual AST Regex Synthesizer, NFA/DFA Automaton Minimizer & ReDoS Vulnerability Guard — Desktop Workstation",
+  "homepage": "https://regexdroid.nullai.tech",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/1nc0gn30/regex-droid-builder.git"
+  },
   "main": "electron/main.cjs",
   "bin": {
     "regex-droid": "./bin/regex-droid.js",
     "regex-droid-builder": "./bin/regex-droid.js"
   },
   "scripts": {
-    "start": "python3 -m regex_droid_builder.cli serve --port 8097",
+    "start": "python3 -m regex_droid_builder.cli serve --port 8101",
+    "serve": "python3 -m http.server 8101 --directory public",
     "electron": "electron .",
     "app": "electron .",
-    "test": "pytest tests/"
+    "test": "pytest tests/",
+    "test:ui": "python3 scripts/verify_ui.py"
   },
   "keywords": [
     "regex",
@@ -26,7 +33,7 @@
     "electron",
     "zoth"
   ],
-  "author": "NullAI Tech / Zoth Team",
+  "author": "Neal Frazier Tech (@1nc0gn30) • NullAI Platform",
   "license": "MIT",
   "devDependencies": {
     "electron": "^34.5.8"

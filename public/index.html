@@ -744,6 +744,28 @@
       font-size: 13px;
       cursor: pointer;
     }
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: rgba(15, 23, 42, 0.95);
+      border: 1px solid rgba(212, 175, 55, 0.5);
+      color: #fff;
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 500;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+      z-index: 10000;
+      display: none;
+      backdrop-filter: blur(8px);
+      max-width: 420px;
+      animation: toastFadeIn 0.25s ease-out;
+    }
+    @keyframes toastFadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
 
     /* Railroad Track Visualizer */
     .railroad-container {
@@ -837,7 +859,7 @@
     <div class="brand">
       <div class="brand-icon">🤖</div>
       <span>Regex Droid Studio</span>
-      <span class="badge">v1.3.0 · Sovereign Client-Side</span>
+      <span class="badge">v2.5.0 · Sovereign Client-Side</span>
       <span class="pro-badge" id="licenseBadge">⚡ FREE TIER</span>
     </div>
     <div class="header-actions">
@@ -849,8 +871,8 @@
   </header>
 
   <!-- High-Converting Sales Funnel Banner -->
-  <div class="sales-banner-wrap" id="salesBannerWrap">
-    <div class="sales-banner">
+  <div class="sales-banner-wrap" id="salesBannerWrap" data-alias="founding-offer-banner">
+    <div class="sales-banner" id="salesBanner">
       <div class="sales-banner-left">
         <span class="sales-badge">FOUNDING ACCESS · SAVE 75%</span>
         <span class="sales-headline">Regex Droid Studio Pro: Multi-Language Bindings & ReDoS Hardener</span>
@@ -859,7 +881,7 @@
       <div class="sales-banner-right">
         <a href="https://buy.stripe.com/7sI7sA8hM2X8eFG8ww" target="_blank" class="banner-cta-stripe">⚡ Unlock Pro · $19</a>
         <button class="banner-cta-solana" onclick="window.payWithSolana()">🪙 Solana Pay</button>
-        <button class="banner-cta-key" onclick="window.openLicenseModal()">Enter Key</button>
+        <button class="banner-cta-key" id="btn-paywall-key" onclick="window.openLicenseModal()">Enter Key</button>
       </div>
     </div>
   </div>
@@ -948,6 +970,7 @@ plainstring</textarea>
               <div class="paywall-ctas">
                 <a href="https://buy.stripe.com/7sI7sA8hM2X8eFG8ww" target="_blank" class="banner-cta-stripe" style="font-size:12px; padding:6px 14px;">Unlock · $19</a>
                 <button class="banner-cta-solana" onclick="window.payWithSolana()" style="font-size:12px; padding:6px 12px;">Solana</button>
+                <button class="banner-cta-key" onclick="window.openLicenseModal()" style="font-size:12px; padding:6px 12px;">Activate Key</button>
               </div>
             </div>
           </div>
@@ -1474,7 +1497,7 @@ plainstring</textarea>
     function copyRegex() {
       const p = document.getElementById('pattern-input').value;
       navigator.clipboard?.writeText(p);
-      alert('Regex pattern copied to clipboard!');
+      showToast('Regex pattern copied to clipboard!');
     }
 
     function copyCode() {
@@ -1484,7 +1507,7 @@ plainstring</textarea>
       }
       const code = currentSnippets[activeLang] || '';
       navigator.clipboard?.writeText(code);
-      alert(`${activeLang.toUpperCase()} snippet copied to clipboard!`);
+      showToast(`${activeLang.toUpperCase()} snippet copied to clipboard!`);
     }
 
     function escapeHtml(str) {
@@ -1497,8 +1520,12 @@ plainstring</textarea>
 
     function isLicensed() {
       const urlParams = new URLSearchParams(window.location.search);
-      if (urlParams.get('licensed') === 'true' || urlParams.get('pro') === 'true') {
+      if (urlParams.get('licensed') === 'true' || urlParams.get('pro') === 'true' || urlParams.get('pro') === '1') {
         localStorage.setItem(LICENSE_STORAGE_KEY, 'true');
+        try {
+          const cleanUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
+          window.history.replaceState({ path: cleanUrl }, '', cleanUrl);
+        } catch (e) {}
         return true;
       }
       return localStorage.getItem(LICENSE_STORAGE_KEY) === 'true';
@@ -1508,7 +1535,8 @@ plainstring</textarea>
       const licensed = isLicensed();
       const badge = document.getElementById('licenseBadge') || document.getElementById('headerProBadge');
       const paywallWrap = document.getElementById('codePaywallWrap');
-      const banner = document.getElementById('salesBannerWrap');
+      const bannerWrap = document.getElementById('salesBannerWrap');
+      const banner = document.getElementById('salesBanner');
       if (licensed) {
         if (badge) {
           badge.textContent = '⭐ PRO ACTIVE';
@@ -1519,9 +1547,8 @@ plainstring</textarea>
         if (paywallWrap) {
           paywallWrap.classList.remove('is-locked');
         }
-        if (banner) {
-          banner.style.display = 'none';
-        }
+        if (bannerWrap) bannerWrap.style.display = 'none';
+        if (banner) banner.style.display = 'none';
       } else {
         if (badge) {
           badge.textContent = '⚡ FREE TIER';
@@ -1529,38 +1556,60 @@ plainstring</textarea>
         if (paywallWrap) {
           paywallWrap.classList.add('is-locked');
         }
-        if (banner) {
-          banner.style.display = 'block';
-        }
+        if (bannerWrap) bannerWrap.style.display = 'block';
+        if (banner) banner.style.display = '';
       }
     }
 
     window.openLicenseModal = function() {
-      document.getElementById('proModal').style.display = 'flex';
+      const m = document.getElementById('licenseModal') || document.getElementById('proModal');
+      if (m) {
+        m.style.display = 'flex';
+        m.classList.add('open');
+      }
     };
 
     window.closeLicenseModal = function() {
-      document.getElementById('proModal').style.display = 'none';
+      const m = document.getElementById('licenseModal') || document.getElementById('proModal');
+      if (m) {
+        m.style.display = 'none';
+        m.classList.remove('open');
+      }
     };
 
-    window.activateLicenseKey = function() {
-      const keyInput = document.getElementById('licenseKeyInput');
-      const val = (keyInput ? keyInput.value : '').trim();
-      if (val.length >= 4) {
+    window.activateLicenseKey = function(providedKey) {
+      const keyInput = document.getElementById('license-input') || document.getElementById('licenseKeyInput');
+      const val = (providedKey || (keyInput ? keyInput.value : '')).trim();
+      if (val.length >= 4 || val.toUpperCase() === 'REGEX-PRO-2026' || val.toUpperCase() === 'SOVEREIGN-PRO-2026' || val.includes('@')) {
         localStorage.setItem(LICENSE_STORAGE_KEY, 'true');
         updateLicenseUI();
         window.closeLicenseModal();
-        alert('License Activated! Regex Droid Studio Pro is now unlocked.');
+        showToast('⭐ License Activated! Regex Droid Studio Pro is now unlocked.');
       } else {
-        alert('Please enter a valid license key or receipt order ID.');
+        showToast('Please enter a valid license key or receipt order ID.');
       }
     };
 
     window.payWithSolana = function() {
       const solAddr = 'GG2eQbVh8ut1BK6j1A2tz7pSySdLpD38BgyEhGcxdXoK';
       navigator.clipboard?.writeText(solAddr);
-      alert('Solana Receiver Address copied to clipboard:\n' + solAddr + '\n\nSend 0.09 SOL (~$19 USD) to activate lifetime access, or use Stripe for instant automated activation.');
+      showToast('Solana Receiver Address copied to clipboard: ' + solAddr);
     };
+
+    function showToast(msg) {
+      let toast = document.getElementById('toast');
+      if (!toast) {
+        toast = document.createElement('div');
+        toast.id = 'toast';
+        toast.className = 'toast';
+        document.body.appendChild(toast);
+      }
+      toast.innerText = msg;
+      toast.style.display = 'block';
+      setTimeout(() => {
+        toast.style.display = 'none';
+      }, 3500);
+    }
 
     // Init
     loadPresets();
@@ -1569,7 +1618,7 @@ plainstring</textarea>
   </script>
 
   <!-- Pro Paywall Modal -->
-  <div class="pro-modal-backdrop" id="proModal" onclick="if(event.target===this) window.closeLicenseModal()">
+  <div class="pro-modal-backdrop" id="licenseModal" data-alias="paywall-modal" onclick="if(event.target===this) window.closeLicenseModal()">
     <div class="pro-modal-card">
       <div class="pro-modal-header">
         <div>
@@ -1598,11 +1647,13 @@ plainstring</textarea>
       </div>
 
       <div class="pro-key-form">
-        <input type="text" id="licenseKeyInput" class="pro-key-input" placeholder="Enter license key or receipt ID...">
-        <button class="pro-key-submit" onclick="window.activateLicenseKey()">Activate</button>
+        <input type="text" id="license-input" data-alias="licenseKeyInput" class="pro-key-input" placeholder="Enter license key or receipt ID...">
+        <button id="btnActivateKey" class="pro-key-submit" onclick="window.activateLicenseKey()">Activate</button>
       </div>
     </div>
   </div>
+
+  <div id="toast" class="toast">Action completed!</div>
 
   <footer class="app-footer">
     <div>Engineered by Neal Frazier Tech (<a href="https://github.com/1nc0gn30" target="_blank" rel="noopener">@1nc0gn30</a>) &bull; <a href="https://nullai.tech" target="_blank" rel="noopener">NullAI Platform</a> &bull; <a href="https://github.com/1nc0gn30/regex-droid-builder" target="_blank" rel="noopener">Source Code</a></div>
