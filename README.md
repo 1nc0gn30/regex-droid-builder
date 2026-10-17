@@ -1,5 +1,9 @@
 # 🤖 Regex Droid Builder
 
+> ⚡ **Live Web Application**: [https://regex-droid-builder.netlify.app](https://regex-droid-builder.netlify.app)  
+> 💳 **Unlock Pro Lifetime License ($19 One-Time, $0/mo)**: **[Instant Pro Unlock via Stripe](https://buy.stripe.com/4gMfZg9AheOsdhKbcAfw40L)** *(Use promo code `FOUNDER25` for 25% off)*  
+> 🏆 **All-Access Sovereign Pro Bundle (All 44 Tools — $49 Lifetime)**: **[Get All 44 Studios via Stripe](https://buy.stripe.com/eVq14m5k16hW4Le0xWfw40M)**
+
 [![CI](https://github.com/NullAITech/regex-droid-builder/actions/workflows/ci.yml/badge.svg)](https://github.com/NullAITech/regex-droid-builder/actions)
 [![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
 [![Zero Dependencies](https://img.shields.io/badge/dependencies-0%20runtime-success.svg)](https://github.com/NullAITech/regex-droid-builder)
