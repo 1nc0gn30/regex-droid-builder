@@ -857,15 +857,15 @@
   <!-- Top Header -->
   <header>
     <div class="brand">
-      <div class="brand-icon">🤖</div>
+      <div class="brand-icon">◈</div>
       <span>Regex Droid Studio</span>
       <span class="badge">v2.5.0 · Sovereign Client-Side</span>
       <span class="pro-badge" id="licenseBadge">⚡ FREE TIER</span>
     </div>
     <div class="header-actions">
-      <button class="btn-icon" onclick="toggleTheme()">🌓 Theme</button>
-      <button class="btn-icon" onclick="copyRegex()">📋 Copy Pattern</button>
-      <button class="btn-icon" onclick="copyCode()">💻 Copy Code</button>
+      <button class="btn-icon" onclick="toggleTheme()">◐ Theme</button>
+      <button class="btn-icon" onclick="copyRegex()">✦ Copy Pattern</button>
+      <button class="btn-icon" onclick="copyCode()">▣ Copy Code</button>
       <button class="btn-icon" onclick="window.openLicenseModal()">⭐ Pro License</button>
     </div>
   </header>
@@ -880,7 +880,7 @@
       </div>
       <div class="sales-banner-right">
         <a href="https://buy.stripe.com/4gMfZg9AheOsdhKbcAfw40L" target="_blank" class="banner-cta-stripe">⚡ Unlock Pro · $19</a>
-        <button class="banner-cta-solana" onclick="window.payWithSolana()">🪙 Solana Pay</button>
+        <button class="banner-cta-solana" onclick="window.payWithSolana()">◉ Solana Pay</button>
         <button class="banner-cta-key" id="btn-paywall-key" onclick="window.openLicenseModal()">Enter Key</button>
       </div>
     </div>
@@ -964,7 +964,7 @@ plainstring</textarea>
               <pre id="code-snippet-box"></pre>
             </div>
             <div class="paywall-overlay">
-              <div class="paywall-lock-badge">🔒 Pro Workstation</div>
+              <div class="paywall-lock-badge">★ Pro Workstation</div>
               <div class="paywall-title">Multi-Language Bindings & Hardening</div>
               <div class="paywall-subtitle">Export production-grade regex bindings across Python, JS/TS, Rust, Go, and PHP with automated ReDoS hardening.</div>
               <div class="paywall-ctas">
@@ -1335,7 +1335,7 @@ plainstring</textarea>
       banner.innerHTML = `
         <div class="redos-banner ${redos.severity}">
           <div>
-            <strong>${redos.severity === 'SAFE' ? '🛡️ Safe Regular Expression' : '⚠️ ReDoS Warning (' + redos.severity + ')'}</strong> (${redos.complexity_order})
+            <strong>${redos.severity === 'SAFE' ? '❖ Safe Regular Expression' : '⚠️ ReDoS Warning (' + redos.severity + ')'}</strong> (${redos.complexity_order})
             <p style="font-size:0.85rem; margin-top:2px;">${escapeHtml(redos.description)}</p>
             ${redos.remediation && redos.is_vulnerable ? `<p style="font-size:0.8rem; margin-top:4px;"><em>Fix: ${escapeHtml(redos.remediation)}</em></p>` : ''}
           </div>
@@ -1639,10 +1639,10 @@ plainstring</textarea>
 
       <div class="pro-modal-ctas">
         <a href="https://buy.stripe.com/4gMfZg9AheOsdhKbcAfw40L" target="_blank" class="modal-cta-stripe">
-          💳 Instant Checkout with Stripe ($19)
+          ★ Instant Checkout with Stripe ($19)
         </a>
         <button class="modal-cta-solana" onclick="window.payWithSolana()">
-          🪙 Pay with Solana (0.09 SOL)
+          ◉ Pay with Solana (0.09 SOL)
         </button>
       </div>
 
