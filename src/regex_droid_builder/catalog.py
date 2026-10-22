@@ -110,9 +110,9 @@ PRESETS: Dict[str, RegexPreset] = {
         flags="",
         explanation="Matches 10-digit North American telephone numbers with optional country code, parentheses, dots, spaces, or hyphens.",
         test_cases=[
-            {"input": "(555) 123-4567", "should_match": True},
-            {"input": "+1-800-555-0199", "should_match": True},
-            {"input": "555.867.5309", "should_match": True},
+            {"input": "(948) 204-7987", "should_match": True},
+            {"input": "+1-948-204-7987", "should_match": True},
+            {"input": "948.204.7987", "should_match": True},
             {"input": "123-45", "should_match": False},
         ]
     ),
