@@ -1,3 +1,9 @@
+<div align="center">
+  <img src="assets/hero-banner.svg" alt="Regex Droid Builder — Sovereign Architecture Banner" width="100%" />
+</div>
+
+<br />
+
 # 🤖 Regex Droid Builder
 
 [![CI](https://github.com/NullAITech/regex-droid-builder/actions/workflows/ci.yml/badge.svg)](https://github.com/NullAITech/regex-droid-builder/actions)
