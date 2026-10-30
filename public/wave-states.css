@@ -1,0 +1,363 @@
+/* ==========================================================================
+   Wave States Layer — Regex Droid Studio
+   Focus-Visible, Hover, Active, Empty & Error Presentation, Reduced Motion
+   Strictly scoped to selectors existing in public/index.html
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. Interactive Hover & Active States
+   -------------------------------------------------------------------------- */
+
+/* Header & Utility Buttons */
+.btn-icon {
+  transition: background-color 0.15s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.15s cubic-bezier(0.16, 1, 0.3, 1),
+              color 0.15s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.15s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.12s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.btn-icon:hover {
+  background: var(--surface-variant);
+  border-color: var(--g-blue);
+  color: var(--text);
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-icon:active {
+  transform: translateY(1px);
+}
+
+/* Regex Flag Buttons */
+.flag-btn:hover:not(.active) {
+  background: var(--surface-variant);
+  border-color: var(--g-blue);
+  color: var(--text);
+}
+
+.flag-btn:active {
+  transform: translateY(1px);
+}
+
+/* Navigation Tabs */
+.tab {
+  transition: color 0.15s cubic-bezier(0.16, 1, 0.3, 1),
+              border-bottom-color 0.15s cubic-bezier(0.16, 1, 0.3, 1),
+              background-color 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.tab:hover:not(.active) {
+  color: var(--text);
+  border-bottom-color: var(--border);
+  background-color: rgba(255, 255, 255, 0.03);
+}
+
+/* Preset Catalog Items */
+.preset-item {
+  transition: border-color 0.16s cubic-bezier(0.16, 1, 0.3, 1),
+              background-color 0.16s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.14s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.preset-item:hover:not(.active) {
+  border-color: var(--g-blue);
+  background: var(--g-blue-light);
+  transform: translateX(2px);
+}
+
+.preset-item:active {
+  transform: translateX(1px) scale(0.995);
+}
+
+/* Sales & Paywall Action CTAs */
+.banner-cta-stripe:hover {
+  filter: brightness(1.1);
+  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.4);
+}
+
+.banner-cta-stripe:active {
+  transform: translateY(0);
+}
+
+.banner-cta-solana:hover {
+  filter: brightness(1.12);
+  box-shadow: 0 4px 12px rgba(20, 241, 149, 0.3);
+}
+
+.banner-cta-solana:active {
+  transform: translateY(1px);
+}
+
+.banner-cta-key:hover {
+  background: var(--surface-card);
+  border-color: var(--text-secondary);
+  color: var(--text);
+}
+
+.banner-cta-key:active {
+  transform: translateY(1px);
+}
+
+/* Pro Modal Interactive Elements */
+.pro-modal-close {
+  transition: color 0.15s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.pro-modal-close:hover {
+  color: var(--text);
+  transform: scale(1.12);
+}
+
+.pro-modal-close:active {
+  transform: scale(0.95);
+}
+
+.modal-cta-stripe:hover {
+  filter: brightness(1.08);
+  box-shadow: 0 6px 18px rgba(212, 175, 55, 0.4);
+}
+
+.modal-cta-stripe:active {
+  transform: translateY(1px);
+}
+
+.modal-cta-solana:hover {
+  filter: brightness(1.1);
+  box-shadow: 0 4px 14px rgba(20, 241, 149, 0.3);
+}
+
+.modal-cta-solana:active {
+  transform: translateY(1px);
+}
+
+.pro-key-submit {
+  transition: filter 0.15s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.12s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.pro-key-submit:hover {
+  filter: brightness(1.12);
+}
+
+.pro-key-submit:active {
+  transform: translateY(1px);
+}
+
+/* Inspection Cards & Rows Hover */
+.step-item {
+  transition: border-color 0.15s cubic-bezier(0.16, 1, 0.3, 1),
+              background-color 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.step-item:hover {
+  border-color: var(--border);
+  background: var(--surface-card);
+}
+
+.test-row {
+  transition: border-color 0.15s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.test-row:hover {
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+/* Footer Link Hovers */
+.app-footer a {
+  transition: color 0.15s cubic-bezier(0.16, 1, 0.3, 1),
+              text-decoration-color 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.app-footer a:hover {
+  color: var(--text);
+  text-decoration: underline;
+}
+
+/* --------------------------------------------------------------------------
+   2. Precision Focus-Visible Reticles
+   -------------------------------------------------------------------------- */
+
+a:focus-visible {
+  outline: 2px solid var(--g-blue);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+.app-footer a:focus-visible {
+  outline: 2px solid var(--g-blue);
+  outline-offset: 2px;
+  text-decoration: underline;
+  border-radius: 2px;
+}
+
+#pattern-input:focus-visible {
+  outline: none;
+}
+
+.regex-editor-bar:focus-within {
+  border-color: var(--g-blue);
+  box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.22);
+}
+
+textarea#test-strings-input:focus-visible {
+  outline: none;
+  border-color: var(--g-blue);
+  box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.22);
+}
+
+.pro-key-input:focus-visible {
+  outline: none;
+  border-color: var(--g-blue);
+  box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.22);
+}
+
+.btn-icon:focus-visible,
+.flag-btn:focus-visible,
+.tab:focus-visible,
+.preset-item:focus-visible,
+.banner-cta-stripe:focus-visible,
+.banner-cta-solana:focus-visible,
+.banner-cta-key:focus-visible,
+.modal-cta-stripe:focus-visible,
+.modal-cta-solana:focus-visible,
+.pro-key-submit:focus-visible,
+.pro-modal-close:focus-visible {
+  outline: 2px solid var(--g-blue);
+  outline-offset: 2px;
+}
+
+/* --------------------------------------------------------------------------
+   3. Empty State Presentation (:empty)
+   -------------------------------------------------------------------------- */
+
+#preset-list:empty::before {
+  content: "Loading regex presets...";
+  display: block;
+  padding: 1rem;
+  color: var(--text-secondary);
+  font-size: 0.8rem;
+  font-family: var(--font-mono);
+  font-style: italic;
+  text-align: center;
+}
+
+#explanation-steps:empty::before {
+  content: "No AST breakdown available. Enter a regular expression above.";
+  display: block;
+  padding: 1.5rem 1rem;
+  text-align: center;
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  font-family: var(--font-mono);
+  border: 1px dashed var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface-variant);
+}
+
+#test-results-list:empty::before {
+  content: "Enter test strings above to evaluate live pattern matches and capture groups.";
+  display: block;
+  padding: 1.5rem 1rem;
+  text-align: center;
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  font-family: var(--font-mono);
+  border: 1px dashed var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface-variant);
+}
+
+pre#code-snippet-box:empty::before {
+  content: "// Select a target language above to view generated bindings.";
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  font-style: italic;
+  display: block;
+}
+
+/* --------------------------------------------------------------------------
+   4. Error, Match & ReDoS Presentation
+   -------------------------------------------------------------------------- */
+
+/* Test Row Matches & Failures: Crisp status rail indicator */
+.test-row.match {
+  border-left: 4px solid var(--g-green);
+  background: var(--g-green-light);
+}
+
+.test-row.match strong {
+  color: var(--g-green);
+}
+
+.test-row.fail {
+  border-left: 4px solid var(--g-red);
+  background: var(--g-red-light);
+}
+
+.test-row.fail strong {
+  color: var(--g-red);
+}
+
+/* ReDoS Risk Severity Presentation */
+.redos-banner.SAFE {
+  border-left: 4px solid var(--g-green);
+}
+
+.redos-banner.LOW {
+  border-left: 4px solid var(--g-blue);
+}
+
+.redos-banner.MEDIUM {
+  border-left: 4px solid var(--g-yellow);
+}
+
+.redos-banner.HIGH,
+.redos-banner.CRITICAL {
+  border-left: 4px solid var(--g-red);
+  box-shadow: 0 0 0 1px rgba(217, 48, 37, 0.25);
+}
+
+/* Form Invalid State presentation */
+.pro-key-input:invalid:not(:placeholder-shown) {
+  border-color: var(--g-red);
+  box-shadow: 0 0 0 2px rgba(217, 48, 37, 0.2);
+}
+
+/* --------------------------------------------------------------------------
+   5. Prefers-Reduced-Motion
+   -------------------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .btn-icon,
+  .flag-btn,
+  .tab,
+  .preset-item,
+  .banner-cta-stripe,
+  .banner-cta-solana,
+  .banner-cta-key,
+  .modal-cta-stripe,
+  .modal-cta-solana,
+  .pro-key-submit,
+  .pro-modal-close,
+  .toast,
+  .redos-banner,
+  .test-row,
+  .step-item,
+  #code-snippet-box {
+    animation: none !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}

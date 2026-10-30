@@ -1,0 +1,244 @@
+/* ==========================================================================
+   Wave Polish Layer — Regex Droid Studio
+   Visual AST Builder & ReDoS Vulnerability Guardian
+   Precision telemetry typography, calibrated focus rings, and arrival motion.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. Working Tool Surface: Clear Type Hierarchy
+   -------------------------------------------------------------------------- */
+
+/* Eyebrow Labels: crisp mono uppercase with deliberate tracking */
+.section-title {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  margin-bottom: 0.5rem;
+}
+
+/* Primary Pattern Input Surface */
+.regex-editor-bar {
+  transition: border-color 0.18s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.regex-editor-bar:focus-within {
+  border-color: var(--g-blue);
+  box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.22);
+}
+
+.regex-delim {
+  color: var(--g-blue);
+  font-weight: 700;
+  user-select: none;
+}
+
+#pattern-input {
+  font-family: var(--font-mono);
+  font-size: 1.02rem;
+  letter-spacing: 0.02em;
+}
+
+/* Regex Flag Toggles */
+.flag-btn {
+  letter-spacing: 0.05em;
+  transition: background-color 0.15s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.15s cubic-bezier(0.16, 1, 0.3, 1),
+              color 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Tab Navigation Hierarchy */
+.tabs {
+  gap: 0.75rem;
+  margin-bottom: 1.15rem;
+}
+
+.tab {
+  font-size: 0.82rem;
+  letter-spacing: 0.015em;
+  padding: 0.5rem 0.75rem;
+}
+
+.tab.active {
+  font-weight: 600;
+}
+
+/* Test Area Labels & Inputs */
+.test-area label {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
+textarea {
+  font-family: var(--font-mono);
+  font-size: 0.88rem;
+  line-height: 1.5;
+  letter-spacing: 0.015em;
+  transition: border-color 0.18s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+textarea:focus-visible {
+  border-color: var(--g-blue);
+  box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.22);
+  outline: none;
+}
+
+/* Telemetry Counts & Code Snippet Hierarchy */
+#ast-node-count {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--g-blue);
+}
+
+.step-badge {
+  font-size: 0.72rem;
+  letter-spacing: 0.03em;
+}
+
+.group-chip {
+  font-size: 0.72rem;
+  letter-spacing: 0.02em;
+}
+
+#code-snippet-box {
+  line-height: 1.55;
+  letter-spacing: 0.015em;
+}
+
+/* Preset Catalog Typography & Hierarchy */
+.preset-item {
+  transition: border-color 0.18s cubic-bezier(0.16, 1, 0.3, 1),
+              background-color 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.preset-name {
+  font-size: 0.84rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.preset-cat {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-top: 2px;
+}
+
+/* --------------------------------------------------------------------------
+   2. Visible Focus States (High-Contrast Reticles)
+   -------------------------------------------------------------------------- */
+
+:focus-visible {
+  outline: 2px solid var(--g-blue);
+  outline-offset: 2px;
+}
+
+.btn-icon:focus-visible {
+  outline: 2px solid var(--g-blue);
+  outline-offset: 2px;
+  background: var(--surface-variant);
+}
+
+.flag-btn:focus-visible {
+  outline: 2px solid var(--g-blue);
+  outline-offset: 2px;
+}
+
+.tab:focus-visible {
+  outline: 2px solid var(--g-blue);
+  outline-offset: -2px;
+  border-radius: var(--radius-sm);
+}
+
+.preset-item:focus-visible {
+  outline: 2px solid var(--g-blue);
+  outline-offset: 2px;
+}
+
+.banner-cta-stripe:focus-visible,
+.banner-cta-solana:focus-visible,
+.banner-cta-key:focus-visible,
+.modal-cta-stripe:focus-visible,
+.modal-cta-solana:focus-visible,
+.pro-key-submit:focus-visible,
+.pro-modal-close:focus-visible {
+  outline: 2px solid var(--g-blue);
+  outline-offset: 2px;
+}
+
+.pro-key-input:focus-visible {
+  outline: none;
+  border-color: var(--g-blue);
+  box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.22);
+}
+
+/* --------------------------------------------------------------------------
+   3. Result Arrival Motion (Transform & Opacity)
+   -------------------------------------------------------------------------- */
+
+@keyframes resultAppear {
+  0% {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.redos-banner {
+  animation: resultAppear 220ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.test-row {
+  animation: resultAppear 200ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.step-item {
+  animation: resultAppear 200ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+#code-snippet-box {
+  animation: resultAppear 220ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Subtle staggered arrival for result items */
+.step-item:nth-child(1) { animation-delay: 0ms; }
+.step-item:nth-child(2) { animation-delay: 30ms; }
+.step-item:nth-child(3) { animation-delay: 60ms; }
+.step-item:nth-child(4) { animation-delay: 90ms; }
+.step-item:nth-child(5) { animation-delay: 120ms; }
+
+.test-row:nth-child(1) { animation-delay: 0ms; }
+.test-row:nth-child(2) { animation-delay: 30ms; }
+.test-row:nth-child(3) { animation-delay: 60ms; }
+.test-row:nth-child(4) { animation-delay: 90ms; }
+
+/* --------------------------------------------------------------------------
+   4. Reduced Motion Preference
+   -------------------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .redos-banner,
+  .test-row,
+  .step-item,
+  #code-snippet-box,
+  .toast {
+    animation: none !important;
+    transform: none !important;
+    transition: none !important;
+  }
+  * {
+    transition-duration: 0.01ms !important;
+  }
+}

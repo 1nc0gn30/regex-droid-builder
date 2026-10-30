@@ -7,8 +7,9 @@
 # 🤖 Regex Droid Builder
 
 [![CI](https://github.com/NullAITech/regex-droid-builder/actions/workflows/ci.yml/badge.svg)](https://github.com/NullAITech/regex-droid-builder/actions)
-[![License: Pro](https://img.shields.io/badge/Pro%20Lifetime-$19%20USD-635BFF?style=flat&logo=stripe)](https://buy.stripe.com/4gMfZg9AheOsdhKbcAfw40L)
-[![Solana Pay](https://img.shields.io/badge/Solana-DePay%20Accepted-14F195?style=flat&logo=solana)](https://zoth.nullai.tech/tools/regex-droid-builder)
+[![Access: 100% Free](https://img.shields.io/badge/Access-100%25%20Free%20%26%20Open-10B981?style=flat)](https://zoth.nullai.tech/tools/regex-droid-builder)
+[![Buy Us a Coffee](https://img.shields.io/badge/☕%20Buy%20Us%20a%20Coffee-Stripe-D4AF37?style=flat)](https://buy.stripe.com/3cIfZg27PdKo2D64Ocfw40X)
+[![Solana Tip](https://img.shields.io/badge/Solana-Tip%20Wallet-14F195?style=flat&logo=solana)](https://zoth.nullai.tech/tools/regex-droid-builder)
 [![Zoth Studio Ready](https://img.shields.io/badge/Zoth%20Studio-God%20Mode%20Active-D4AF37?style=flat)](https://zoth.nullai.tech/tools/regex-droid-builder)
 [![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
 [![Zero Dependencies](https://img.shields.io/badge/dependencies-0%20runtime-success.svg)](https://github.com/NullAITech/regex-droid-builder)
@@ -17,8 +18,78 @@
 
 > **Visual Regular Expression AST Builder, Static ReDoS Catastrophic Backtracking Vulnerability Detector & Multi-Language Code Generator with Material 3 Web UI, Multi-OS CLI, FastMCP stdio server, and zero external runtime dependencies.**  
 > - 💻 **Zoth Studio Enclave**: [https://zoth.nullai.tech/tools/regex-droid-builder](https://zoth.nullai.tech/tools/regex-droid-builder)  
-> - 💳 **Founding Member License**: $19 Lifetime (Regular $79) via [Stripe](https://buy.stripe.com/4gMfZg9AheOsdhKbcAfw40L) or Solana DePay (`GG2eQbVh8ut1BK6j1A2tz7pSySdLpD38BgyEhGcxdXoK`).  
+> - ☕ **100% Free & Open Access**: Zero paywalls, zero license locks. Support independent engineering via [Buy Us a Coffee (Stripe)](https://buy.stripe.com/3cIfZg27PdKo2D64Ocfw40X) or Solana Tip (`GG2eQbVh8ut1BK6j1A2tz7pSySdLpD38BgyEhGcxdXoK`).  
 > - ⚡ **Attribution**: Engineered by Neal Frazier Tech ([@1nc0gn30](https://github.com/1nc0gn30)) • NullAI Platform.
+
+---
+
+## 📖 What It Does
+
+**Regex Droid Studio** is a sovereign, zero-egress developer utility for authoring, analyzing, and fortifying regular expressions. It solves the critical hazards of modern regex authoring: unreadable patterns, catastrophic ReDoS denial-of-service vulnerabilities, and subtle regex dialect incompatibilities between programming languages.
+
+- **AST Decomposition**: Deconstructs any regex pattern into an Abstract Syntax Tree (AST) with plain-English token explanations.
+- **Static ReDoS Audit**: Detects catastrophic polynomial and exponential backtracking risks before production deployment.
+- **Canonical DFA Minimization**: Applies Hopcroft and Moore minimization algorithms to reduce state automata complexity.
+- **Formal Verification**: Verifies language equivalence and subset containment between two patterns with counterexample generation.
+- **Multi-Language Code Generation**: Emits copy-paste ready implementations in Python, JavaScript/TypeScript, Rust, Go, Java, and C#.
+- **Zero Cloud Egress**: 100% client-side AST compilation and Python standard library execution with zero telemetry.
+
+---
+
+## ⚙️ How It Works
+
+1. **Parser & Lexer (`ast_engine.py`)**: Uses a recursive-descent parser to tokenize character classes, anchors, group captures, lookarounds, and quantifiers without third-party regex AST engines.
+2. **Automaton Engine (`automaton_engine.py`)**: Transforms regex expressions into Thompson NFAs and converts them to deterministic DFAs via subset construction, with gas meter simulations to measure computational steps.
+3. **ReDoS Vulnerability Guardian (`redos_detector.py`)**: Detects nested repetitions (e.g. `(a+)+`), overlapping alternations inside loops, and unbounded greedy wildcards, calculating complexity orders ($O(N)$, $O(N^2)$, $O(2^N)$).
+4. **Dialect Transpiler (`dialect_transpiler.py`)**: Maps patterns between Python `re`, JavaScript ECMAScript 2024, Rust `regex`, Go `regexp`, and PCRE2, flagging unsupported syntax like lookbehinds or backreferences.
+
+---
+
+## 💻 ZothOS CLI & Subcommands
+
+Regex Droid is fully integrated into ZothOS via `/usr/local/bin/regex-droid` and `/usr/local/bin/regex-droid-builder`.
+
+```bash
+# Display version and status
+regex-droid --version
+regex-droid --status
+regex-droid --json
+
+# Plain-English AST explanation
+regex-droid explain "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+
+# ReDoS security audit
+regex-droid audit "(a+)+$"
+
+# Multi-language code snippet generation
+regex-droid codegen "^[0-9]{5}(-[0-9]{4})?$" --lang python
+
+# Formal DFA minimization
+regex-droid minimize "a(b|c)*d"
+
+# Automaton gas meter trace
+regex-droid gas-meter "^(a+)+$" "aaaaaaaaaaaaaaaaaaaaaaaaaaaa!"
+
+# Launch Standalone Web Workstation on port 8101
+regex-droid serve --port 8101
+```
+
+---
+
+## 🤖 FastMCP Server Integration
+
+Add Regex Droid to your Claude Desktop or Cursor MCP configuration:
+
+```json
+{
+  "mcpServers": {
+    "regex-droid": {
+      "command": "regex-droid",
+      "args": ["mcp"]
+    }
+  }
+}
+```
 
 ---
 

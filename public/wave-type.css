@@ -1,0 +1,206 @@
+/* ==========================================================================
+   Wave Typography Layer — Regex Droid Studio
+   Visual AST Builder & ReDoS Vulnerability Guardian
+   Readable measure on work surfaces, tabular numbers on scores and prices,
+   and calibrated optical heading tracking.
+   Strictly scoped to selectors existing in public/index.html.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. Readable Measure & Vertical Rhythm on Main Work Surface
+   -------------------------------------------------------------------------- */
+
+/* Sales Funnel Copy: calibrated comfortable measure */
+.sales-headline {
+  max-width: 64ch;
+  line-height: 1.35;
+  letter-spacing: -0.02em;
+}
+
+.sales-pricing {
+  max-width: 68ch;
+  line-height: 1.5;
+}
+
+/* ReDoS Incident & Advice Copy */
+.redos-banner p {
+  max-width: 68ch;
+  line-height: 1.5;
+}
+
+/* AST Explainer Description Text */
+.step-item div div {
+  max-width: 70ch;
+  line-height: 1.5;
+}
+
+/* Test Area Labels & Input Buffer */
+.test-area label {
+  line-height: 1.4;
+  letter-spacing: 0.06em;
+}
+
+textarea#test-strings-input {
+  max-width: 100%;
+  line-height: 1.55;
+  letter-spacing: 0.015em;
+}
+
+/* Paywall Locked Workstation Narrative */
+.paywall-subtitle {
+  max-width: 48ch;
+  line-height: 1.55;
+}
+
+/* Pro Modal Benefit Items */
+.pro-modal-benefits {
+  line-height: 1.45;
+}
+
+.pro-benefit-item {
+  line-height: 1.4;
+}
+
+/* Footer Telemetry & Legal Attribution */
+.app-footer div {
+  max-width: 72ch;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.55;
+}
+
+/* --------------------------------------------------------------------------
+   2. Tabular Numbers on Existing Scores, Metrics, & Prices
+   -------------------------------------------------------------------------- */
+
+/* Numeric feature settings to prevent glyph width jitter */
+.sales-pricing del,
+.sales-pricing strong,
+.banner-cta-stripe,
+.modal-cta-stripe,
+.modal-cta-solana,
+.badge,
+.pro-badge,
+#licenseBadge,
+#ast-node-count,
+.step-badge,
+.group-chip,
+.group-chip code,
+.redos-banner,
+.redos-banner strong,
+.test-row,
+.test-row span,
+pre,
+#code-snippet-box,
+#pattern-input,
+textarea#test-strings-input,
+.preset-name {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+}
+
+/* Precision alignment for badge figures and counts */
+#ast-node-count {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+  letter-spacing: 0.02em;
+}
+
+.step-badge {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+}
+
+.group-chip {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+}
+
+/* Pricing readouts and currency symbols */
+.sales-pricing strong {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+  letter-spacing: -0.01em;
+}
+
+.sales-pricing del {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+}
+
+.banner-cta-stripe,
+.modal-cta-stripe {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+  letter-spacing: -0.01em;
+}
+
+.modal-cta-solana {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+}
+
+/* --------------------------------------------------------------------------
+   3. Calibrated Heading Tracking & Eyebrow Hierarchy
+   -------------------------------------------------------------------------- */
+
+/* Eyebrow Badges & Uppercase Labels (deliberate tracking) */
+.section-title {
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.sales-badge {
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.paywall-lock-badge {
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.preset-cat {
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.step-badge {
+  letter-spacing: 0.04em;
+}
+
+/* Instrument & Brand Headings (calibrated negative tracking) */
+.brand {
+  letter-spacing: -0.015em;
+}
+
+.brand span {
+  letter-spacing: -0.015em;
+}
+
+.paywall-title {
+  letter-spacing: -0.018em;
+  line-height: 1.3;
+}
+
+.pro-modal-title {
+  letter-spacing: -0.022em;
+  line-height: 1.25;
+}
+
+.preset-name {
+  letter-spacing: -0.01em;
+  line-height: 1.3;
+}
+
+.tab {
+  letter-spacing: -0.005em;
+}
+
+.redos-banner strong {
+  letter-spacing: -0.01em;
+}
+
+.test-row strong {
+  letter-spacing: -0.005em;
+}

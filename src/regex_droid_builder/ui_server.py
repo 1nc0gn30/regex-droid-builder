@@ -186,7 +186,7 @@ class RegexHTTPHandler(BaseHTTPRequestHandler):
         parsed = urllib.parse.urlparse(self.path)
         path = parsed.path
 
-        if path == "/api/health":
+        if path in ("/health", "/api/health"):
             self._send_json({
                 "status": "ok",
                 "service": "regex-droid-builder",

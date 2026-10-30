@@ -39,7 +39,7 @@
         "description": "100% in-browser visual regular expression builder, AST breakdown, railroad diagram visualizer, and ReDoS vulnerability detector.",
         "offers": {
           "@type": "Offer",
-          "price": "19.00",
+          "price": "0",
           "priceCurrency": "USD",
           "availability": "https://schema.org/InStock"
         },
@@ -571,7 +571,7 @@
       overflow: hidden;
     }
     .paywall-wrap.is-locked .paywall-content {
-      filter: blur(6px);
+      filter: none;
       pointer-events: none;
       user-select: none;
     }
@@ -580,8 +580,8 @@
       position: absolute;
       top: 0; left: 0; right: 0; bottom: 0;
       background: rgba(18, 18, 24, 0.82);
-      backdrop-filter: blur(4px);
-      -webkit-backdrop-filter: blur(4px);
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
       flex-direction: column;
       align-items: center;
       justify-content: center;
@@ -631,8 +631,8 @@
       position: fixed;
       top: 0; left: 0; width: 100%; height: 100%;
       background: rgba(0, 0, 0, 0.78);
-      backdrop-filter: blur(6px);
-      -webkit-backdrop-filter: blur(6px);
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
       z-index: 2000;
       align-items: center;
       justify-content: center;
@@ -758,7 +758,7 @@
       box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
       z-index: 10000;
       display: none;
-      backdrop-filter: blur(8px);
+      backdrop-filter: none;
       max-width: 420px;
       animation: toastFadeIn 0.25s ease-out;
     }
@@ -851,8 +851,50 @@
       }
     }
   </style>
+  <link rel="stylesheet" href="/wave.css">
+  <link rel="stylesheet" href="/wave-states.css">
+  <link rel="stylesheet" href="/wave-type.css">
+
+  <!-- Zoth 100% Open-Access & Buy Us a Coffee Invariant -->
+  <script id="zoth-open-access-init">
+    (function() {
+      try {
+        var keys = ['agent_audiocipher_pro', 'agent_cyber_turtle_pro', 'agent_datamosh_pro', 'agent_nexus3d_pro', 'agent_policy_pro', 'audiocipher_license', 'audiocipher_pro_licensed', 'badge3d_pro_licensed', 'certpath_pro_key', 'certpath_pro_licensed', 'cron_rhythm_pro_key', 'cron_rhythm_pro_licensed', 'cwv-speed-engine_pro_licensed', 'cwv_pro_licensed', 'cyber_turtle_pro_licensed', 'datamosh_pro_licensed', 'deepsearch-research-agent_pro_licensed', 'deepsearch_pro_licensed', 'entropy_studio_licensed', 'envguard-secrets-vault_pro_licensed', 'envguard_pro_license', 'etsy_connector_pro', 'jwt_guard_licensed', 'mdg_pro_licensed', 'neuro_pro_licensed', 'nexus3d_pro_licensed', 'omnipost_pro_key', 'omnipost_pro_licensed', 'osint_pro_licensed', 'payload-entropy-studio_pro_licensed', 'polyglot_pro_licensed', 'pro_licensed', 'promptmaster_pro_licensed', 'promptmaster_pro_active', 'robots-txt-auditor_pro_licensed', 'robots_pro_licensed', 'schema_illustrator_pro_licensed', 'sovereign_pro_licensed', 'subsweep-lead-scanner_pro_licensed', 'subsweep_licensed', 'turtle_pro_licensed', 'ufo_sacred_licensed', 'vector-search-engine_pro_licensed', 'vector_studio_pro_licensed', 'web-security-guard_pro_licensed', 'web_security_guard_licensed', 'yourdigitalspace_pro', 'zela_guide_pro_licensed', 'zoth_ascii_magic_pro', 'zoth_audiocipher_licensed', 'zoth_badge3d_licensed', 'zoth_cyber_turtle_licensed', 'zoth_datamosh_licensed', 'zoth_etsy_licensed', 'zoth_nexus3d_licensed', 'zoth_osint_licensed', 'zoth_policy_licensed', 'zoth_sacred_licensed', 'zoth_ufo_licensed'];
+        for (var i = 0; i < keys.length; i++) {
+          localStorage.setItem(keys[i], 'true');
+        }
+        localStorage.setItem('pm_license_v2', JSON.stringify({ method: 'open_access', ref: 'free_forever', at: '2026-01-01T00:00:00Z' }));
+        window.isPro = true;
+        window.isProLicensed = true;
+      } catch (e) {}
+    })();
+  </script>
+  <style id="zoth-open-access-override">
+    .paywall-overlay, .output-paywall-overlay, #outputPaywallOverlay, #schemaPaywallOverlay,
+    #transformerPaywallOverlay, #proPaywallModal, #licenseModal, #salesBanner, #founding-offer-banner,
+    #funnelHeroBanner, [data-alias="paywallOverlay"], [data-alias="founding-offer-banner"] {
+      display: none !important;
+      opacity: 0 !important;
+      pointer-events: none !important;
+    }
+    .paywall-wrap #outputPreview, .paywall-wrap #reportContentArea, .paywall-content,
+    .paywall-content.locked, .paywall-wrap.is-locked #outputPreview, .paywall-wrap.locked #outputPreview {
+      filter: none !important;
+      -webkit-filter: none !important;
+      user-select: auto !important;
+      pointer-events: auto !important;
+    }
+  </style>
+
 </head>
 <body>
+
+<div id="zoth-coffee-support-bar" style="background: linear-gradient(90deg, rgba(16,185,129,0.12), rgba(212,175,55,0.14)); border-bottom: 1px solid rgba(212,175,55,0.35); padding: 8px 16px; display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 12px; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 12px; z-index: 9999;">
+  <span style="color: #10B981; font-weight: 800;">✦ 100% FREE &amp; OPEN ACCESS · ZERO PAYWALLS</span>
+  <a href="https://buy.stripe.com/3cIfZg27PdKo2D64Ocfw40X" target="_blank" rel="noopener noreferrer" style="background: #D4AF37; color: #08080B; padding: 4px 12px; border-radius: 6px; font-weight: 800; text-decoration: none; display: inline-flex; align-items: center; gap: 6px;">☕ Buy Us a Coffee (Stripe)</a>
+  <a href="solana:GG2eQbVh8ut1BK6j1A2tz7pSySdLpD38BgyEhGcxdXoK" onclick="if(navigator.clipboard){navigator.clipboard.writeText('GG2eQbVh8ut1BK6j1A2tz7pSySdLpD38BgyEhGcxdXoK');this.textContent='✓ Copied GG2eQb...dXoK!';}" style="background: rgba(20,241,149,0.15); color: #14F195; border: 1px solid rgba(20,241,149,0.45); padding: 4px 12px; border-radius: 6px; font-weight: 800; text-decoration: none; display: inline-flex; align-items: center; gap: 6px;">◎ Solana Tip (GG2e...dXoK)</a>
+</div>
+
 
   <!-- Top Header -->
   <header>
@@ -860,31 +902,15 @@
       <div class="brand-icon">◈</div>
       <span>Regex Droid Studio</span>
       <span class="badge">v2.5.0 · Sovereign Client-Side</span>
-      <span class="pro-badge" id="licenseBadge">⚡ FREE TIER</span>
+      <span class="pro-badge" id="licenseBadge" style="background: rgba(16,185,129,0.15); color: #10B981; border: 1px solid #10B981;">✦ 100% UNLOCKED</span>
     </div>
     <div class="header-actions">
       <button class="btn-icon" onclick="toggleTheme()">◐ Theme</button>
       <button class="btn-icon" onclick="copyRegex()">✦ Copy Pattern</button>
       <button class="btn-icon" onclick="copyCode()">▣ Copy Code</button>
-      <button class="btn-icon" onclick="window.openLicenseModal()">⭐ Pro License</button>
+      <a href="https://buy.stripe.com/3cIfZg27PdKo2D64Ocfw40X" target="_blank" rel="noopener noreferrer" class="btn-icon" style="color: #D4AF37; text-decoration: none; display: inline-flex; align-items: center;">☕ Buy Us a Coffee</a>
     </div>
   </header>
-
-  <!-- High-Converting Sales Funnel Banner -->
-  <div class="sales-banner-wrap" id="salesBannerWrap" data-alias="founding-offer-banner">
-    <div class="sales-banner" id="salesBanner">
-      <div class="sales-banner-left">
-        <span class="sales-badge">FOUNDING ACCESS · SAVE 75%</span>
-        <span class="sales-headline">Regex Droid Studio Pro: Multi-Language Bindings & ReDoS Hardener</span>
-        <span class="sales-pricing"><del>$79</del> <strong>$19 Lifetime</strong> · Universal Credit Cards, Apple Pay, Google Pay, or Solana</span>
-      </div>
-      <div class="sales-banner-right">
-        <a href="https://buy.stripe.com/4gMfZg9AheOsdhKbcAfw40L" target="_blank" class="banner-cta-stripe">⚡ Unlock Pro · $19</a>
-        <button class="banner-cta-solana" onclick="window.payWithSolana()">◉ Solana Pay</button>
-        <button class="banner-cta-key" id="btn-paywall-key" onclick="window.openLicenseModal()">Enter Key</button>
-      </div>
-    </div>
-  </div>
 
   <div class="container">
     <aside>
@@ -959,20 +985,8 @@ plainstring</textarea>
             <button class="btn-icon" onclick="showLang('php')">PHP</button>
           </div>
 
-          <div class="paywall-wrap is-locked" id="codePaywallWrap">
-            <div class="paywall-content">
-              <pre id="code-snippet-box"></pre>
-            </div>
-            <div class="paywall-overlay">
-              <div class="paywall-lock-badge">★ Pro Workstation</div>
-              <div class="paywall-title">Multi-Language Bindings & Hardening</div>
-              <div class="paywall-subtitle">Export production-grade regex bindings across Python, JS/TS, Rust, Go, and PHP with automated ReDoS hardening.</div>
-              <div class="paywall-ctas">
-                <a href="https://buy.stripe.com/4gMfZg9AheOsdhKbcAfw40L" target="_blank" class="banner-cta-stripe" style="font-size:12px; padding:6px 14px;">Unlock · $19</a>
-                <button class="banner-cta-solana" onclick="window.payWithSolana()" style="font-size:12px; padding:6px 12px;">Solana</button>
-                <button class="banner-cta-key" onclick="window.openLicenseModal()" style="font-size:12px; padding:6px 12px;">Activate Key</button>
-              </div>
-            </div>
+          <div>
+            <pre id="code-snippet-box"></pre>
           </div>
         </div>
       </div>
@@ -1501,10 +1515,6 @@ plainstring</textarea>
     }
 
     function copyCode() {
-      if (!isLicensed()) {
-        window.openLicenseModal();
-        return;
-      }
       const code = currentSnippets[activeLang] || '';
       navigator.clipboard?.writeText(code);
       showToast(`${activeLang.toUpperCase()} snippet copied to clipboard!`);
@@ -1515,86 +1525,32 @@ plainstring</textarea>
       return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
     }
 
-    // License Management & Action Interceptors
-    const LICENSE_STORAGE_KEY = 'regex_droid_pro_licensed';
-
+    // 100% Free Open Access Invariant
     function isLicensed() {
-      const urlParams = new URLSearchParams(window.location.search);
-      if (urlParams.get('licensed') === 'true' || urlParams.get('pro') === 'true' || urlParams.get('pro') === '1') {
-        localStorage.setItem(LICENSE_STORAGE_KEY, 'true');
-        try {
-          const cleanUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
-          window.history.replaceState({ path: cleanUrl }, '', cleanUrl);
-        } catch (e) {}
-        return true;
-      }
-      return localStorage.getItem(LICENSE_STORAGE_KEY) === 'true';
+      return true;
     }
 
     function updateLicenseUI() {
-      const licensed = isLicensed();
       const badge = document.getElementById('licenseBadge') || document.getElementById('headerProBadge');
       const paywallWrap = document.getElementById('codePaywallWrap');
       const bannerWrap = document.getElementById('salesBannerWrap');
       const banner = document.getElementById('salesBanner');
-      if (licensed) {
-        if (badge) {
-          badge.textContent = '⭐ PRO ACTIVE';
-          badge.style.background = 'linear-gradient(135deg, rgba(212,175,55,0.2), rgba(255,215,0,0.3))';
-          badge.style.color = '#ffd700';
-          badge.style.border = '1px solid #ffd700';
-        }
-        if (paywallWrap) {
-          paywallWrap.classList.remove('is-locked');
-        }
-        if (bannerWrap) bannerWrap.style.display = 'none';
-        if (banner) banner.style.display = 'none';
-      } else {
-        if (badge) {
-          badge.textContent = '⚡ FREE TIER';
-        }
-        if (paywallWrap) {
-          paywallWrap.classList.add('is-locked');
-        }
-        if (bannerWrap) bannerWrap.style.display = 'block';
-        if (banner) banner.style.display = '';
+      if (badge) {
+        badge.textContent = '✦ 100% UNLOCKED';
+        badge.style.background = 'rgba(16,185,129,0.15)';
+        badge.style.color = '#10B981';
+        badge.style.border = '1px solid #10B981';
       }
+      if (paywallWrap) {
+        paywallWrap.classList.remove('is-locked');
+      }
+      if (bannerWrap) bannerWrap.style.display = 'none';
+      if (banner) banner.style.display = 'none';
     }
 
-    window.openLicenseModal = function() {
-      const m = document.getElementById('licenseModal') || document.getElementById('proModal');
-      if (m) {
-        m.style.display = 'flex';
-        m.classList.add('open');
-      }
-    };
-
-    window.closeLicenseModal = function() {
-      const m = document.getElementById('licenseModal') || document.getElementById('proModal');
-      if (m) {
-        m.style.display = 'none';
-        m.classList.remove('open');
-      }
-    };
-
-    window.activateLicenseKey = function(providedKey) {
-      const keyInput = document.getElementById('license-input') || document.getElementById('licenseKeyInput');
-      const val = (providedKey || (keyInput ? keyInput.value : '')).trim();
-      if (val.length >= 4 || val.toUpperCase() === 'REGEX-PRO-2026' || val.toUpperCase() === 'SOVEREIGN-PRO-2026' || val.includes('@')) {
-        localStorage.setItem(LICENSE_STORAGE_KEY, 'true');
-        updateLicenseUI();
-        window.closeLicenseModal();
-        showToast('⭐ License Activated! Regex Droid Studio Pro is now unlocked.');
-      } else {
-        showToast('Please enter a valid license key or receipt order ID.');
-      }
-    };
-
-    window.payWithSolana = function() {
-      const solAddr = 'GG2eQbVh8ut1BK6j1A2tz7pSySdLpD38BgyEhGcxdXoK';
-      navigator.clipboard?.writeText(solAddr);
-      showToast('Solana Receiver Address copied to clipboard: ' + solAddr);
-    };
+    window.openLicenseModal = function() {};
+    window.closeLicenseModal = function() {};
+    window.activateLicenseKey = function() {};
 
     function showToast(msg) {
       let toast = document.getElementById('toast');
@@ -1616,42 +1572,6 @@ plainstring</textarea>
     handlePatternChange();
     updateLicenseUI();
   </script>
-
-  <!-- Pro Paywall Modal -->
-  <div class="pro-modal-backdrop" id="licenseModal" data-alias="paywall-modal" onclick="if(event.target===this) window.closeLicenseModal()">
-    <div class="pro-modal-card">
-      <div class="pro-modal-header">
-        <div>
-          <div class="pro-modal-title">⭐ Upgrade to Regex Droid Studio Pro</div>
-          <div style="font-size:12px; color:var(--text-secondary); margin-top:2px;">Founding Lifetime Access · $19 One-Time</div>
-        </div>
-        <button class="pro-modal-close" onclick="window.closeLicenseModal()">&times;</button>
-      </div>
-
-      <div class="pro-modal-benefits">
-        <div class="pro-benefit-item"><span class="pro-benefit-icon">✓</span> Multi-Language Code Exporter (Python, JS, Rust, Go, PHP)</div>
-        <div class="pro-benefit-item"><span class="pro-benefit-icon">✓</span> Automated ReDoS Remediation Suggestions</div>
-        <div class="pro-benefit-item"><span class="pro-benefit-icon">✓</span> Full AST Syntax Explainer & Railroad Vector SVG</div>
-        <div class="pro-benefit-item"><span class="pro-benefit-icon">✓</span> Batch Test Matrix & Fuzz Sample Synthesizer</div>
-        <div class="pro-benefit-item"><span class="pro-benefit-icon">✓</span> Zero Cloud Egress Guarantee (Client-Side)</div>
-        <div class="pro-benefit-item"><span class="pro-benefit-icon">✓</span> Commercial License & Lifetime Updates</div>
-      </div>
-
-      <div class="pro-modal-ctas">
-        <a href="https://buy.stripe.com/4gMfZg9AheOsdhKbcAfw40L" target="_blank" class="modal-cta-stripe">
-          ★ Instant Checkout with Stripe ($19)
-        </a>
-        <button class="modal-cta-solana" onclick="window.payWithSolana()">
-          ◉ Pay with Solana (0.09 SOL)
-        </button>
-      </div>
-
-      <div class="pro-key-form">
-        <input type="text" id="license-input" data-alias="licenseKeyInput" class="pro-key-input" placeholder="Enter license key or receipt ID...">
-        <button id="btnActivateKey" class="pro-key-submit" onclick="window.activateLicenseKey()">Activate</button>
-      </div>
-    </div>
-  </div>
 
   <div id="toast" class="toast">Action completed!</div>
 
