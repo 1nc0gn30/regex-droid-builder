@@ -1,0 +1,41 @@
+{
+  "repo_id": "regex-droid-builder",
+  "title": "Regex Droid Builder",
+  "engineered_by": "1nc0gn30 (@1nc0gn30) \u2022 NullAI Platform",
+  "gpu_engine": "NVIDIA A100 80GB PCIe (ComfyUI FLUX.1 + Qwen2.5-Coder-32B + Trimesh GLB)",
+  "archetype": "astrolabe",
+  "accent_hex": "#D4AF37",
+  "qwen32b_design_spec": "Regex Droid Builder: Archetype astrolabe, #D4AF37 accent, intuitive UI, dynamic shader effects, seamless regex visualization, user-friendly.",
+  "assets": {
+    "hero_4k": "/assets/gpu-hero-4k.png",
+    "og_banner": "/og-banner.jpg",
+    "model_3d_glb": "/assets/gpu-artifact.glb",
+    "showreel_webm": "/assets/gpu-showreel.webm",
+    "ad_mp4": "/assets/gpu-ad-15s.mp4"
+  },
+  "benchmark_ms": {
+    "index": 63,
+    "total_repos": 99,
+    "repo_id": "regex-droid-builder",
+    "title": "Regex Droid Builder",
+    "archetype": "astrolabe",
+    "accent_hex": "#D4AF37",
+    "glb_ms": 756,
+    "flux_hero_ms": 8263,
+    "flux_og_ms": 6393,
+    "video_ms": 6605,
+    "qwen32b_ms": 3974,
+    "total_ms": 25993,
+    "glb_kb": 126.8,
+    "hero_kb": 995.6,
+    "og_kb": 710.4,
+    "qwen32b_spec": "Regex Droid Builder: Archetype astrolabe, #D4AF37 accent, intuitive UI, dynamic shader effects, seamless regex visualization, user-friendly.",
+    "hero_gallery_url": "/gallery/regex-droid-builder_gpu-hero-4k.png",
+    "og_gallery_url": "/gallery/regex-droid-builder_og-banner.jpg",
+    "glb_gallery_url": "/gallery/regex-droid-builder.glb",
+    "vram_used_mb": 55829,
+    "vram_total_mb": 81152,
+    "timestamp": "03:42:28 UTC"
+  },
+  "timestamp": "2026-11-01T03:42:28Z"
+}

@@ -19,7 +19,7 @@
 > **Visual Regular Expression AST Builder, Static ReDoS Catastrophic Backtracking Vulnerability Detector & Multi-Language Code Generator with Material 3 Web UI, Multi-OS CLI, FastMCP stdio server, and zero external runtime dependencies.**  
 > - 💻 **Zoth Studio Enclave**: [https://zoth.nullai.tech/tools/regex-droid-builder](https://zoth.nullai.tech/tools/regex-droid-builder)  
 > - ☕ **100% Free & Open Access**: Zero paywalls, zero license locks. Support independent engineering via [Buy Us a Coffee (Stripe)](https://buy.stripe.com/3cIfZg27PdKo2D64Ocfw40X) or Solana Tip (`GG2eQbVh8ut1BK6j1A2tz7pSySdLpD38BgyEhGcxdXoK`).  
-> - ⚡ **Attribution**: Engineered by Neal Frazier Tech ([@1nc0gn30](https://github.com/1nc0gn30)) • NullAI Platform.
+> - ⚡ **Attribution**: Engineered by 1nc0gn30 • NullAI ([@1nc0gn30](https://github.com/1nc0gn30)) • NullAI Platform.
 
 ---
 
