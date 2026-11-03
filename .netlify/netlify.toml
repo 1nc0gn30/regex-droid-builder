@@ -7,7 +7,7 @@ plugins = []
 [functions."*"]
 
 [build]
-publish = "/home/zoth/NullAITech/regex-droid-builder/public"
+publish = "~/NullAITech/regex-droid-builder/public"
 publishOrigin = "config"
 
 [build.environment]
