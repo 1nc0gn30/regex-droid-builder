@@ -89,11 +89,12 @@ func extractMatches(text string) []string {{
 """
 
     # Java
+    escaped_java_pattern = pattern.replace("\\", "\\\\")
     java_code = f"""import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
 public class RegexHelper {{
-    private static final Pattern PATTERN = Pattern.compile("{pattern.replace('\\', '\\\\')}");
+    private static final Pattern PATTERN = Pattern.compile("{escaped_java_pattern}");
 
     public static boolean isMatch(String text) {{
         return PATTERN.matcher(text).find();
