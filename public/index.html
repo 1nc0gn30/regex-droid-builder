@@ -1406,6 +1406,22 @@ plainstring</textarea>
     <div>Engineered by 1nc0gn30 • NullAI (<a href="https://github.com/1nc0gn30" target="_blank" rel="noopener">@1nc0gn30</a>) &bull; <a href="https://nullai.tech" target="_blank" rel="noopener">NullAI Platform</a> &bull; <a href="https://github.com/1nc0gn30/regex-droid-builder" target="_blank" rel="noopener">Source Code</a></div>
     <div style="font-size:12px; color:var(--text-secondary); margin-top:4px;">100% In-Browser Client-Side Regex Studio &bull; Zero Cloud Egress</div>
   </footer>
-  <script src="/assets/sovereign-upgrade.js" defer></script>
+  
+
+  <script src="/sovereign_tutorial.js"></script>
+  <script>
+    window.addEventListener("DOMContentLoaded", function() {
+      if (window.createSovereignTutorial) {
+        window.createSovereignTutorial({
+          toolId: "regex-droid-builder",
+          toolName: "Regex Droid Studio",
+          tagline: "Visual regular expression tester, neural explainer, and ReDoS vulnerability guardian!",
+          accentColor: "#EC4899",
+          steps: [{"icon": "\ud83e\udd16", "title": "No More Regex Headaches!", "desc": "Regular expressions look like alien code. Regex Droid translates them into plain English and interactive railroad diagrams."}, {"icon": "\ud83c\udfaf", "title": "Live Match Highlighting", "desc": "Type test strings to see matches, capture groups, and character classes highlight instantly in real time."}, {"icon": "\ud83d\udee1\ufe0f", "title": "ReDoS Catastrophic Backtracking Guard", "desc": "Warns you if your regex has evil loops that could freeze your web server when fed malicious text."}]
+        });
+      }
+    });
+  </script>
+
 </body>
 </html>
