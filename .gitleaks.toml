@@ -1,0 +1,11 @@
+title = "regex-droid-builder gitleaks config"
+
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Allowlist RFC 7519 dummy JWT sample string in historical commits of preset catalog"
+paths = [
+  '''^src/regex_droid_builder/catalog\.py$''',
+  '''^public/index\.html$''',
+]

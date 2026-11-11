@@ -69,7 +69,7 @@
   transform: translateX(1px) scale(0.995);
 }
 
-/* Sales & Paywall Action CTAs */
+/* Action CTAs */
 .banner-cta-stripe:hover {
   filter: brightness(1.1);
   box-shadow: 0 4px 12px rgba(212, 175, 55, 0.4);

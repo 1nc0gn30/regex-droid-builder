@@ -152,7 +152,7 @@ PRESETS: Dict[str, RegexPreset] = {
         flags="",
         explanation="Matches standard 3-part base64url encoded JSON Web Tokens separated by periods (Header.Payload.Signature).",
         test_cases=[
-            {"input": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c", "should_match": True},
+            {"input": "headerPart123.payloadPart456.signaturePart789", "should_match": True},
             {"input": "invalid.jwt", "should_match": False},
         ]
     ),

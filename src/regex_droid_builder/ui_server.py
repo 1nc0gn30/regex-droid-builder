@@ -413,7 +413,7 @@ class RegexHTTPHandler(BaseHTTPRequestHandler):
         pass
 
 
-def run_ui_server(host: str = "127.0.0.1", port: int = 8097) -> ThreadingHTTPServer:
+def run_ui_server(host: str = "127.0.0.1", port: int = 8101) -> ThreadingHTTPServer:
     """Launch UI HTTP Server."""
     server = ThreadingHTTPServer((host, port), RegexHTTPHandler)
     return server

@@ -94,7 +94,7 @@ def build_parser() -> argparse.ArgumentParser:
     # serve
     p_serve = sub.add_parser("serve", parents=[base], help="Start Regex Droid Studio Web UI (Material 3 influenced)")
     p_serve.add_argument("--host", default="127.0.0.1", help="Host address (default: 127.0.0.1; use 0.0.0.0 only on trusted networks)")
-    p_serve.add_argument("--port", type=int, default=8097, help="Port (default: 8097)")
+    p_serve.add_argument("--port", type=int, default=8101, help="Port (default: 8101)")
 
     # mcp
     p_mcp = sub.add_parser("mcp", parents=[base], help="Run Model Context Protocol stdio server")
